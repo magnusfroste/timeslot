@@ -80,7 +80,7 @@ const Index = () => {
         {/* Benefits Section */}
         <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
-            Why Choose MeetUp?
+            Why Choose Timeslot?
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex items-start space-x-4">
