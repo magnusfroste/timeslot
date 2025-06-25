@@ -26,7 +26,7 @@ const Index = () => {
           <Link to="/create">
             <Button size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-lg px-10 py-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group">
               <Zap className="mr-3 h-6 w-6 group-hover:animate-pulse" />
-              Create Meeting Invite
+              Create Timeslot Invite
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
