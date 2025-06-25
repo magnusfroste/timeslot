@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, Users, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import SocialMeta from "@/components/SocialMeta";
 
 const MeetingInvite = () => {
   const { inviteId } = useParams();
@@ -137,8 +137,21 @@ const MeetingInvite = () => {
     );
   }
 
+  // Generate social media content
+  const socialTitle = `${invite.title} - MeetUp Meeting Invite`;
+  const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
+  const socialImage = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&h=630&fit=crop&crop=center";
+  const socialUrl = window.location.href;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <SocialMeta 
+        title={socialTitle}
+        description={socialDescription}
+        image={socialImage}
+        url={socialUrl}
+      />
+      
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
