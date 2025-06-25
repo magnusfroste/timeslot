@@ -16,7 +16,7 @@ const Index = () => {
             </div>
           </div>
           <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6 leading-tight">
-            MeetUp
+            Timeslot
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 mb-10 max-w-3xl mx-auto leading-relaxed">
             The <span className="font-semibold text-indigo-600">simplest way</span> to schedule meetings. 
