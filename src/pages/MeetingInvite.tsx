@@ -138,9 +138,9 @@ const MeetingInvite = () => {
   }
 
   // Generate social media content
-  const socialTitle = `${invite.title} - MeetUp Meeting Invite`;
+  const socialTitle = `${invite.title} - TimeSlot Meeting Invite`;
   const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
-  const socialImage = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&h=630&fit=crop&crop=center";
+  const socialImage = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format";
   const socialUrl = window.location.href;
 
   return (

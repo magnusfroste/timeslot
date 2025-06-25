@@ -46,11 +46,11 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
 
     return () => {
       // Cleanup function - restore default values when component unmounts
-      document.title = 'MeetUp - Simple Meeting Scheduling';
+      document.title = 'TimeSlot - Simple Meeting Scheduling';
       updateMetaTag('description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.', true);
-      updateMetaTag('og:title', 'MeetUp - Simple Meeting Scheduling');
+      updateMetaTag('og:title', 'TimeSlot - Simple Meeting Scheduling');
       updateMetaTag('og:description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.');
-      updateMetaTag('twitter:title', 'MeetUp - Simple Meeting Scheduling', true);
+      updateMetaTag('twitter:title', 'TimeSlot - Simple Meeting Scheduling', true);
       updateMetaTag('twitter:description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.', true);
     };
   }, [title, description, image, url]);
