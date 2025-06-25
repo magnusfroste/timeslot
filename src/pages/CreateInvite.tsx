@@ -107,7 +107,7 @@ const CreateInvite = () => {
             </Link>
             <div className="flex items-center">
               <Calendar className="h-8 w-8 text-indigo-600 mr-3" />
-              <h1 className="text-3xl font-bold text-gray-900">Create Meeting Invite</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Create Timeslots Invite</h1>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ const CreateInvite = () => {
             <CardHeader>
               <CardTitle>Meeting Details</CardTitle>
               <CardDescription>
-                Set up your meeting and pick some time slots. Keep it simple!
+                Propose your meeting and pick some time slots. Keep it simple!
               </CardDescription>
             </CardHeader>
             <CardContent>
