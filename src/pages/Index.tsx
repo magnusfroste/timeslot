@@ -87,7 +87,7 @@ const Index = () => {
               <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-lg text-gray-800 mb-2">Lightning Fast</h3>
-                <p className="text-gray-600">Create and share meeting invites in under 30 seconds</p>
+                <p className="text-gray-600">Create and share meeting timeslots in under 30 seconds</p>
               </div>
             </div>
             <div className="flex items-start space-x-4">
