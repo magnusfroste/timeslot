@@ -14,7 +14,7 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     document.title = title;
 
     // Use a clear meeting invitation placeholder image
-    const meetingInviteImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format&overlay=text&text=📅%20MEETING%20INVITATION%20-%20Please%20Share%20Your%20Availability&text-size=60&text-color=white&text-align=center';
+    const meetingInviteImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format&overlay=text&text=MEETING%20INVITATION&text-size=80&text-color=white&text-align=center';
     const defaultImage = meetingInviteImage;
 
     // Update or create meta tags
@@ -35,11 +35,11 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     };
 
     // Update description with clear call to action
-    const enhancedDescription = `📅 MEETING INVITATION: ${description}. Click to view available times and share your availability.`;
+    const enhancedDescription = `MEETING INVITATION: ${description}. Click to view available times and share your availability.`;
     updateMetaTag('description', enhancedDescription, true);
     
     // Update Open Graph tags
-    updateMetaTag('og:title', `📅 Meeting Invitation: ${title}`);
+    updateMetaTag('og:title', `Meeting Invitation: ${title}`);
     updateMetaTag('og:description', enhancedDescription);
     updateMetaTag('og:type', 'website');
     updateMetaTag('og:image', image || defaultImage);
@@ -47,7 +47,7 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
 
     // Update Twitter tags
     updateMetaTag('twitter:card', 'summary_large_image', true);
-    updateMetaTag('twitter:title', `📅 Meeting Invitation: ${title}`, true);
+    updateMetaTag('twitter:title', `Meeting Invitation: ${title}`, true);
     updateMetaTag('twitter:description', enhancedDescription, true);
     updateMetaTag('twitter:image', image || defaultImage, true);
 
