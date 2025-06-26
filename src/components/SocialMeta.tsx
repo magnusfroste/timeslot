@@ -13,9 +13,9 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     // Update document title
     document.title = title;
 
-    // Use a clear meeting invitation placeholder image
-    const meetingInviteImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format&overlay=text&text=MEETING%20INVITATION&text-size=80&text-color=white&text-align=center';
-    const defaultImage = meetingInviteImage;
+    // Use an image showing people collaborating online
+    const collaborationImage = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=630&fit=crop&crop=center&auto=format';
+    const defaultImage = collaborationImage;
 
     // Update or create meta tags
     const updateMetaTag = (property: string, content: string, isName = false) => {

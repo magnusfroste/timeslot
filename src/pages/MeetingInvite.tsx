@@ -40,9 +40,9 @@ const MeetingInvite = () => {
   useEffect(() => {
     if (invite && invite.available_slots && Array.isArray(invite.available_slots)) {
       console.log('Setting up social media preview for invite:', invite);
-      // Use a clear meeting invitation image that will work across all platforms
-      const meetingInviteImage = `https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format`;
-      setSocialImageUrl(meetingInviteImage);
+      // Use an image showing people collaborating online
+      const collaborationImage = `https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=630&fit=crop&crop=center&auto=format`;
+      setSocialImageUrl(collaborationImage);
     }
   }, [invite]);
 
