@@ -140,7 +140,7 @@ const MeetingInvite = () => {
   // Generate social media content with dynamic image
   const socialTitle = `${invite.title} - TimeSlot Meeting Invite`;
   const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
-  const socialImage = `${window.location.origin}/supabase/functions/v1/generate-social-image?inviteId=${inviteId}`;
+  const socialImage = `https://umjqoizuhfrxzjgrdvei.supabase.co/functions/v1/generate-social-image?inviteId=${inviteId}`;
   const socialUrl = window.location.href;
 
   return (
