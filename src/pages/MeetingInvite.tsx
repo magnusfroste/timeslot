@@ -11,6 +11,7 @@ import { Calendar, Clock, Users, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import SocialMeta from "@/components/SocialMeta";
+import { generateSocialImage } from "@/components/ImageGenerator";
 
 const MeetingInvite = () => {
   const { inviteId } = useParams();
@@ -18,6 +19,7 @@ const MeetingInvite = () => {
   const [participantName, setParticipantName] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [socialImageUrl, setSocialImageUrl] = useState<string>("");
 
   // Fetch invite details
   const { data: invite, isLoading: inviteLoading } = useQuery({
@@ -33,6 +35,25 @@ const MeetingInvite = () => {
       return data;
     },
   });
+
+  // Generate social image when invite data is available
+  useEffect(() => {
+    if (invite) {
+      try {
+        const imageDataUrl = generateSocialImage({
+          title: invite.title,
+          organizer: invite.inviter_name,
+          timeSlots: invite.available_slots as string[]
+        });
+        setSocialImageUrl(imageDataUrl);
+        console.log('Generated social image successfully');
+      } catch (error) {
+        console.error('Failed to generate social image:', error);
+        // Fallback to default image
+        setSocialImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format');
+      }
+    }
+  }, [invite]);
 
   // Fetch participant responses
   const { data: responses = [], isLoading: responsesLoading } = useQuery({
@@ -137,17 +158,9 @@ const MeetingInvite = () => {
     );
   }
 
-  // Generate social media content with dynamic image
+  // Generate social media content
   const socialTitle = `${invite.title} - TimeSlot Meeting Invite`;
   const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
-  
-  // Try dynamic image first, with fallback
-  const dynamicImageUrl = `https://umjqoizuhfrxzjgrdvei.supabase.co/functions/v1/generate-social-image?inviteId=${inviteId}`;
-  const fallbackImageUrl = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format';
-  
-  console.log('Using dynamic social image URL:', dynamicImageUrl);
-  
-  const socialImage = dynamicImageUrl;
   const socialUrl = window.location.href;
 
   return (
@@ -155,7 +168,7 @@ const MeetingInvite = () => {
       <SocialMeta 
         title={socialTitle}
         description={socialDescription}
-        image={socialImage}
+        image={socialImageUrl}
         url={socialUrl}
       />
       
