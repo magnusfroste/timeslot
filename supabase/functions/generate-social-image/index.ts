@@ -17,11 +17,11 @@ serve(async (req) => {
     const inviteId = url.searchParams.get('inviteId')
     
     if (!inviteId) {
-      return new Response('Missing inviteId parameter', { 
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'text/plain' }
-      })
+      console.log('Missing inviteId parameter')
+      return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
     }
+
+    console.log('Generating social image for invite:', inviteId)
 
     // Initialize Supabase client
     const supabaseClient = createClient(
@@ -38,54 +38,78 @@ serve(async (req) => {
 
     if (error || !invite) {
       console.error('Invite fetch error:', error)
-      // Fallback to default image
       return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
     }
 
-    // Generate image using OpenAI DALL-E
-    const openaiResponse = await fetch('https://api.openai.com/v1/images/generations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`
-      },
-      body: JSON.stringify({
-        model: "dall-e-3",
-        prompt: `Create a professional meeting invitation social media image with a clean, modern design. The image should have:
-        - A large calendar icon prominently displayed
-        - Title: "${invite.title}"
-        - Organizer: "Organized by ${invite.inviter_name}"
-        - Text: "Click to see available times"
-        - Use a blue gradient background
-        - Modern typography with high contrast
-        - Professional business meeting aesthetic
-        - Optimized for social media sharing (16:9 aspect ratio)`,
-        size: "1792x1024",
-        quality: "standard",
-        n: 1
+    console.log('Found invite:', invite.title)
+
+    // Check if OpenAI API key is available
+    const openaiApiKey = Deno.env.get('OPENAI_API_KEY')
+    if (!openaiApiKey) {
+      console.log('No OpenAI API key found, using fallback image')
+      return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
+    }
+
+    // Try to generate image with OpenAI
+    try {
+      console.log('Attempting to generate image with OpenAI...')
+      
+      const openaiResponse = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiApiKey}`
+        },
+        body: JSON.stringify({
+          model: "dall-e-3",
+          prompt: `Create a professional meeting invitation social media image. Clean modern design with:
+- Large calendar icon prominently displayed
+- Title: "${invite.title}"
+- Organizer: "Organized by ${invite.inviter_name}"
+- Text: "Click to see available times"
+- Blue gradient background
+- Modern typography, high contrast
+- Professional business aesthetic
+- Social media optimized (16:9 ratio)`,
+          size: "1792x1024",
+          quality: "standard",
+          n: 1
+        })
       })
-    })
 
-    if (!openaiResponse.ok) {
-      const errorText = await openaiResponse.text()
-      console.error('OpenAI API error:', errorText)
-      // Fallback to default image
-      return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
+      if (!openaiResponse.ok) {
+        const errorText = await openaiResponse.text()
+        console.error('OpenAI API error:', errorText)
+        throw new Error(`OpenAI API failed: ${openaiResponse.status}`)
+      }
+
+      const imageData = await openaiResponse.json()
+      console.log('OpenAI response received')
+      
+      if (imageData.data && imageData.data[0] && imageData.data[0].url) {
+        console.log('Successfully generated image, redirecting to:', imageData.data[0].url)
+        return Response.redirect(imageData.data[0].url)
+      } else {
+        console.error('Invalid OpenAI response format:', imageData)
+        throw new Error('Invalid response format from OpenAI')
+      }
+
+    } catch (openaiError) {
+      console.error('OpenAI generation failed:', openaiError)
+      
+      // Fallback to a more specific calendar image based on meeting details
+      const encodedTitle = encodeURIComponent(invite.title)
+      const encodedOrganizer = encodeURIComponent(invite.inviter_name)
+      
+      // Use a calendar-themed image with better parameters
+      const fallbackUrl = `https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format&q=80&txt=${encodedTitle}&txt-size=48&txt-color=ffffff&txt-pad=40&txt-align=center`
+      
+      console.log('Using fallback image:', fallbackUrl)
+      return Response.redirect(fallbackUrl)
     }
-
-    const imageData = await openaiResponse.json()
-    
-    if (!imageData.data || !imageData.data[0] || !imageData.data[0].url) {
-      console.error('Invalid OpenAI response format:', imageData)
-      return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
-    }
-
-    // Redirect to the generated image URL
-    return Response.redirect(imageData.data[0].url)
 
   } catch (error) {
-    console.error('Error generating social image:', error)
-    // Fallback to default image
+    console.error('Error in generate-social-image function:', error)
     return Response.redirect('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format')
   }
 })

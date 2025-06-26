@@ -140,7 +140,14 @@ const MeetingInvite = () => {
   // Generate social media content with dynamic image
   const socialTitle = `${invite.title} - TimeSlot Meeting Invite`;
   const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
-  const socialImage = `https://umjqoizuhfrxzjgrdvei.supabase.co/functions/v1/generate-social-image?inviteId=${inviteId}`;
+  
+  // Try dynamic image first, with fallback
+  const dynamicImageUrl = `https://umjqoizuhfrxzjgrdvei.supabase.co/functions/v1/generate-social-image?inviteId=${inviteId}`;
+  const fallbackImageUrl = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format';
+  
+  console.log('Using dynamic social image URL:', dynamicImageUrl);
+  
+  const socialImage = dynamicImageUrl;
   const socialUrl = window.location.href;
 
   return (
