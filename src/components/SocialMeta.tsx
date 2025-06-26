@@ -50,10 +50,10 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
       updateMetaTag('description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.', true);
       updateMetaTag('og:title', 'TimeSlot - Simple Meeting Scheduling');
       updateMetaTag('og:description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.');
-      updateMetaTag('og:image', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format');
+      updateMetaTag('og:image', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format');
       updateMetaTag('twitter:title', 'TimeSlot - Simple Meeting Scheduling', true);
       updateMetaTag('twitter:description', 'The simplest way to schedule meetings. Create time slots, share the link, and let others pick their availability. No registration required.', true);
-      updateMetaTag('twitter:image', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format', true);
+      updateMetaTag('twitter:image', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format', true);
     };
   }, [title, description, image, url]);
 
