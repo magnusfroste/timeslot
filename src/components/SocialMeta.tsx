@@ -13,6 +13,10 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     // Update document title
     document.title = title;
 
+    // Use a clear meeting invitation placeholder image
+    const meetingInviteImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format&overlay=text&text=📅%20MEETING%20INVITATION%20-%20Please%20Share%20Your%20Availability&text-size=60&text-color=white&text-align=center';
+    const defaultImage = meetingInviteImage;
+
     // Update or create meta tags
     const updateMetaTag = (property: string, content: string, isName = false) => {
       const selector = isName ? `meta[name="${property}"]` : `meta[property="${property}"]`;
@@ -30,19 +34,22 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
       meta.content = content;
     };
 
-    // Update description
-    updateMetaTag('description', description, true);
+    // Update description with clear call to action
+    const enhancedDescription = `📅 MEETING INVITATION: ${description}. Click to view available times and share your availability.`;
+    updateMetaTag('description', enhancedDescription, true);
     
     // Update Open Graph tags
-    updateMetaTag('og:title', title);
-    updateMetaTag('og:description', description);
-    updateMetaTag('og:image', image || 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format');
+    updateMetaTag('og:title', `📅 Meeting Invitation: ${title}`);
+    updateMetaTag('og:description', enhancedDescription);
+    updateMetaTag('og:type', 'website');
+    updateMetaTag('og:image', image || defaultImage);
     if (url) updateMetaTag('og:url', url);
 
     // Update Twitter tags
-    updateMetaTag('twitter:title', title, true);
-    updateMetaTag('twitter:description', description, true);
-    updateMetaTag('twitter:image', image || 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format', true);
+    updateMetaTag('twitter:card', 'summary_large_image', true);
+    updateMetaTag('twitter:title', `📅 Meeting Invitation: ${title}`, true);
+    updateMetaTag('twitter:description', enhancedDescription, true);
+    updateMetaTag('twitter:image', image || defaultImage, true);
 
     return () => {
       // Cleanup function - restore default values when component unmounts

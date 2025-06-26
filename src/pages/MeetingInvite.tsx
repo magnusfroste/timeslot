@@ -39,23 +39,10 @@ const MeetingInvite = () => {
   // Generate social image when invite data is available
   useEffect(() => {
     if (invite && invite.available_slots && Array.isArray(invite.available_slots)) {
-      console.log('Generating social image for invite:', invite);
-      try {
-        // Wait a bit for DOM to be ready
-        setTimeout(() => {
-          const imageDataUrl = generateSocialImage({
-            title: invite.title,
-            organizer: invite.inviter_name,
-            timeSlots: invite.available_slots as string[]
-          });
-          setSocialImageUrl(imageDataUrl);
-          console.log('Generated social image successfully, length:', imageDataUrl.length);
-        }, 100);
-      } catch (error) {
-        console.error('Failed to generate social image:', error);
-        // Fallback to default image
-        setSocialImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format');
-      }
+      console.log('Setting up social media preview for invite:', invite);
+      // Use a clear meeting invitation image that will work across all platforms
+      const meetingInviteImage = `https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format`;
+      setSocialImageUrl(meetingInviteImage);
     }
   }, [invite]);
 
@@ -162,9 +149,9 @@ const MeetingInvite = () => {
     );
   }
 
-  // Generate social media content with more specific details
-  const socialTitle = `${invite.title} - Meeting Invite`;
-  const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". ${invite.available_slots ? (invite.available_slots as string[]).length : 0} time slots available. Click to see times and share your availability.${invite.description ? ' ' + invite.description : ''}`;
+  // Generate social media content with clear invitation messaging
+  const socialTitle = `Meeting Invitation: ${invite.title}`;
+  const socialDescription = `${invite.inviter_name} is requesting your availability for "${invite.title}". ${invite.available_slots ? (invite.available_slots as string[]).length : 0} time options available. Please click to view times and share when you're free.${invite.description ? ' Details: ' + invite.description : ''}`;
   const socialUrl = window.location.href;
 
   return (
@@ -172,17 +159,11 @@ const MeetingInvite = () => {
       <SocialMeta 
         title={socialTitle}
         description={socialDescription}
-        image={socialImageUrl || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop&crop=center&auto=format'}
+        image={socialImageUrl}
         url={socialUrl}
       />
       
-      {/* Debug info - remove in production */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed top-0 left-0 bg-black text-white p-2 text-xs z-50">
-          <div>Social Image: {socialImageUrl ? 'Generated' : 'Using fallback'}</div>
-          <div>Image length: {socialImageUrl.length}</div>
-        </div>
-      )}
+      {/* Remove debug info completely */}
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
