@@ -36,13 +36,13 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     // Update Open Graph tags
     updateMetaTag('og:title', title);
     updateMetaTag('og:description', description);
-    if (image) updateMetaTag('og:image', image);
+    updateMetaTag('og:image', image || 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format');
     if (url) updateMetaTag('og:url', url);
 
     // Update Twitter tags
     updateMetaTag('twitter:title', title, true);
     updateMetaTag('twitter:description', description, true);
-    if (image) updateMetaTag('twitter:image', image, true);
+    updateMetaTag('twitter:image', image || 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format', true);
 
     return () => {
       // Cleanup function - restore default values when component unmounts

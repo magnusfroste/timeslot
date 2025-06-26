@@ -137,10 +137,10 @@ const MeetingInvite = () => {
     );
   }
 
-  // Generate social media content
+  // Generate social media content with dynamic image
   const socialTitle = `${invite.title} - TimeSlot Meeting Invite`;
   const socialDescription = `${invite.inviter_name} has invited you to "${invite.title}". Click to see available times and share your availability. ${invite.description ? invite.description : ''}`;
-  const socialImage = "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1200&h=630&fit=crop&crop=center&auto=format";
+  const socialImage = `${window.location.origin}/supabase/functions/v1/generate-social-image?inviteId=${inviteId}`;
   const socialUrl = window.location.href;
 
   return (
