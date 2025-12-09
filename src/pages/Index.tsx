@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Users, Zap, ArrowRight, CheckCircle } from "lucide-react";
+import { Calendar, Clock, Users, Zap, ArrowRight, CheckCircle, Github, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -113,6 +113,30 @@ const Index = () => {
             </div>
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="mt-20 pb-8 text-center">
+          <div className="flex items-center justify-center gap-6 text-gray-600">
+            <span className="flex items-center gap-2">
+              <Heart className="h-4 w-4 text-red-500" />
+              Free to use
+            </span>
+            <span className="text-gray-300">•</span>
+            <span className="flex items-center gap-2">
+              Open Source (MIT)
+            </span>
+            <span className="text-gray-300">•</span>
+            <a 
+              href="https://github.com/magnusfroste/timeslot" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-indigo-600 transition-colors"
+            >
+              <Github className="h-5 w-5" />
+              GitHub
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );
