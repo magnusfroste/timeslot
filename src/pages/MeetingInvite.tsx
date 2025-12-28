@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Copy, Check } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Users } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
@@ -19,7 +18,6 @@ const MeetingInvite = () => {
   const { invite, isLoading, responses, getSlotParticipants } = useMeetingInvite(inviteId);
   const submitResponse = useSubmitResponse(inviteId);
 
-  // Generate social image when invite data is available
   useEffect(() => {
     if (invite && invite.available_slots && Array.isArray(invite.available_slots)) {
       const collaborationImage = `https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=630&fit=crop&crop=center&auto=format`;
@@ -48,10 +46,10 @@ const MeetingInvite = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <Calendar className="h-12 w-12 text-indigo-600 mx-auto mb-4 animate-spin" />
-          <p className="text-lg text-gray-600">Loading meeting details...</p>
+      <div className="min-h-screen aurora-bg noise flex items-center justify-center">
+        <div className="text-center glass-strong rounded-3xl p-8 animate-pulse-soft">
+          <Calendar className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+          <p className="text-lg text-muted-foreground">Loading meeting details...</p>
         </div>
       </div>
     );
@@ -59,45 +57,59 @@ const MeetingInvite = () => {
 
   if (!invite) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle className="text-red-600">Meeting Not Found</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>This meeting invite doesn't exist or has expired.</p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen aurora-bg noise flex items-center justify-center p-4">
+        <div className="glass-strong rounded-3xl p-8 max-w-md text-center animate-fade-in">
+          <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+            <Calendar className="h-8 w-8 text-destructive" />
+          </div>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Meeting Not Found</h2>
+          <p className="text-muted-foreground mb-6">This meeting invite doesn't exist or has expired.</p>
+          <Link to="/">
+            <Button className="bg-primary hover:bg-primary/90 rounded-xl">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Go Home
+            </Button>
+          </Link>
+        </div>
       </div>
     );
   }
 
   const socialTitle = `Meeting Invitation: ${invite.title}`;
-  const socialDescription = `${invite.inviter_name} is requesting your availability for "${invite.title}". ${invite.available_slots.length} time options available. Please click to view times and share when you're free.${invite.description ? ' Details: ' + invite.description : ''}`;
+  const socialDescription = `${invite.inviter_name} is requesting your availability for "${invite.title}". ${invite.available_slots.length} time options available.`;
   const socialUrl = window.location.href;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen aurora-bg noise overflow-hidden">
       <SocialMeta 
         title={socialTitle}
         description={socialDescription}
         image={socialImageUrl}
         url={socialUrl}
       />
+
+      {/* Floating decorative elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-10 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
+      </div>
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <div className="bg-white rounded-full p-3 shadow-lg">
-                <Calendar className="h-8 w-8 text-indigo-600" />
+          <div className="text-center mb-10 animate-fade-in-up">
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl scale-150" />
+                <div className="relative glass-strong rounded-2xl p-4 shadow-glass-lg">
+                  <Calendar className="h-10 w-10 text-primary" />
+                </div>
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{invite.title}</h1>
-            <p className="text-lg text-gray-600 mb-2">Organized by {invite.inviter_name}</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{invite.title}</h1>
+            <p className="text-lg text-muted-foreground mb-1">Organized by {invite.inviter_name}</p>
             {invite.description && (
-              <p className="text-gray-600 max-w-2xl mx-auto">{invite.description}</p>
+              <p className="text-muted-foreground max-w-2xl mx-auto mt-2">{invite.description}</p>
             )}
             
             {/* Share link */}
@@ -105,53 +117,53 @@ const MeetingInvite = () => {
               <Button
                 variant="outline"
                 onClick={copyLink}
-                className="flex items-center gap-2"
+                className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
                 {copied ? "Copied!" : "Share Link"}
               </Button>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
             {/* Left side - Time slots */}
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Clock className="h-5 w-5 mr-2" />
-                  Available Time Slots
-                </CardTitle>
-                <CardDescription>
-                  Click on the times you're available
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {invite.available_slots.map((slot, index) => (
-                    <TimeSlotCard
-                      key={index}
-                      slot={slot}
-                      isSelected={selectedSlots.includes(slot)}
-                      participants={getSlotParticipants(slot)}
-                      onToggle={toggleSlot}
-                    />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <div className="glass-strong rounded-3xl p-6 shadow-glass animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold text-foreground">Available Time Slots</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mb-5">
+                Click on the times you're available
+              </p>
+              <div className="space-y-3">
+                {invite.available_slots.map((slot, index) => (
+                  <TimeSlotCard
+                    key={index}
+                    slot={slot}
+                    isSelected={selectedSlots.includes(slot)}
+                    participants={getSlotParticipants(slot)}
+                    onToggle={toggleSlot}
+                  />
+                ))}
+              </div>
+            </div>
 
             {/* Right side - Response form */}
-            <ResponseForm
-              participantName={participantName}
-              onNameChange={setParticipantName}
-              selectedSlots={selectedSlots}
-              onSlotRemove={toggleSlot}
-              onSubmit={handleSubmit}
-              isSubmitting={submitResponse.isPending}
-            />
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <ResponseForm
+                participantName={participantName}
+                onNameChange={setParticipantName}
+                selectedSlots={selectedSlots}
+                onSlotRemove={toggleSlot}
+                onSubmit={handleSubmit}
+                isSubmitting={submitResponse.isPending}
+              />
+            </div>
           </div>
 
-          <ParticipantsList responses={responses} />
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <ParticipantsList responses={responses} />
+          </div>
         </div>
       </div>
     </div>
