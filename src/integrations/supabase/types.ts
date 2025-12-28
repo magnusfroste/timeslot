@@ -14,7 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      meeting_invites: {
+        Row: {
+          available_slots: string[]
+          created_at: string
+          description: string | null
+          expires_at: string | null
+          id: string
+          inviter_name: string
+          title: string
+        }
+        Insert: {
+          available_slots?: string[]
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          inviter_name: string
+          title: string
+        }
+        Update: {
+          available_slots?: string[]
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          inviter_name?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      participant_responses: {
+        Row: {
+          created_at: string
+          id: string
+          invite_id: string
+          participant_initials: string
+          participant_name: string
+          selected_slots: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invite_id: string
+          participant_initials: string
+          participant_name: string
+          selected_slots?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invite_id?: string
+          participant_initials?: string
+          participant_name?: string
+          selected_slots?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participant_responses_invite_id_fkey"
+            columns: ["invite_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_invites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
