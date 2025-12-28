@@ -66,6 +66,15 @@ const CreateInvite = () => {
     form.setValue("timeSlots", updated, { shouldValidate: true });
   };
 
+  const duplicateTimeSlot = (index: number) => {
+    const slotToDuplicate = timeSlots[index];
+    const newSlot = { ...slotToDuplicate };
+    const newSlots = [...timeSlots];
+    newSlots.splice(index + 1, 0, newSlot);
+    setTimeSlots(newSlots);
+    form.setValue("timeSlots", newSlots);
+  };
+
   const handleSubmit = (data: CreateInviteFormData) => {
     createInvite.mutate({
       ...data,
@@ -284,6 +293,7 @@ const CreateInvite = () => {
                         onAdd={addTimeSlot}
                         onRemove={removeTimeSlot}
                         onUpdate={updateTimeSlot}
+                        onDuplicate={duplicateTimeSlot}
                       />
                       <FormMessage />
                     </FormItem>

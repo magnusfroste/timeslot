@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2, Clock } from "lucide-react";
+import { Plus, Trash2, Clock, Copy } from "lucide-react";
 import type { TimeSlot } from "@/hooks/useCreateInvite";
 
 interface TimeSlotFormProps {
@@ -9,9 +9,10 @@ interface TimeSlotFormProps {
   onAdd: () => void;
   onRemove: (index: number) => void;
   onUpdate: (index: number, field: 'date' | 'time', value: string) => void;
+  onDuplicate?: (index: number) => void;
 }
 
-export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate }: TimeSlotFormProps) {
+export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate }: TimeSlotFormProps) {
   const today = new Date().toISOString().split('T')[0];
 
   return (
@@ -38,6 +39,18 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate }: TimeSlotF
                 onChange={(e) => onUpdate(index, 'time', e.target.value)}
                 className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
               />
+              {onDuplicate && (slot.date || slot.time) && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onDuplicate(index)}
+                  className="h-10 w-10 shrink-0 hover:bg-primary/10 hover:text-primary hover:border-primary/50 rounded-xl"
+                  title="Duplicera"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              )}
               {timeSlots.length > 1 && (
                 <Button
                   type="button"
@@ -45,6 +58,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate }: TimeSlotF
                   size="icon"
                   onClick={() => onRemove(index)}
                   className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
+                  title="Ta bort"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
