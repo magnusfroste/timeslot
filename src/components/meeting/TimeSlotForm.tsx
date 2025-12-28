@@ -16,48 +16,52 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate }: TimeSlotF
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-primary" />
-          <Label className="text-base font-semibold text-foreground">Available Time Slots</Label>
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={onAdd}
-          className="glass border-border/50 hover:bg-secondary/50 rounded-xl"
-        >
-          <Plus className="h-4 w-4 mr-1" />
-          Add Slot
-        </Button>
+      <div className="flex items-center gap-2 mb-4">
+        <Clock className="h-4 w-4 text-primary" />
+        <Label className="text-base font-semibold text-foreground">Föreslagna tider</Label>
       </div>
 
       <div className="space-y-3">
         {timeSlots.map((slot, index) => (
-          <div key={index} className="flex gap-3 items-center bg-background/30 p-3 rounded-xl border border-border/30">
-            <Input
-              type="date"
-              value={slot.date}
-              onChange={(e) => onUpdate(index, 'date', e.target.value)}
-              className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
-              min={today}
-            />
-            <Input
-              type="time"
-              value={slot.time}
-              onChange={(e) => onUpdate(index, 'time', e.target.value)}
-              className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
-            />
-            {timeSlots.length > 1 && (
+          <div key={index}>
+            <div className="flex gap-3 items-center bg-background/30 p-3 rounded-xl border border-border/30">
+              <Input
+                type="date"
+                value={slot.date}
+                onChange={(e) => onUpdate(index, 'date', e.target.value)}
+                className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+                min={today}
+              />
+              <Input
+                type="time"
+                value={slot.time}
+                onChange={(e) => onUpdate(index, 'time', e.target.value)}
+                className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+              />
+              {timeSlots.length > 1 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onRemove(index)}
+                  className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+            
+            {/* Add slot button after first row */}
+            {index === 0 && (
               <Button
                 type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => onRemove(index)}
-                className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
+                variant="ghost"
+                size="sm"
+                onClick={onAdd}
+                className="mt-2 text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-xl"
               >
-                <Trash2 className="h-4 w-4" />
+                <Plus className="h-4 w-4 mr-1" />
+                Lägg till tid
               </Button>
             )}
           </div>
