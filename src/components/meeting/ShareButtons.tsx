@@ -9,17 +9,11 @@ interface ShareButtonsProps {
 }
 
 const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButtonsProps) => {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const shareUrl = `${supabaseUrl}/functions/v1/social-preview?id=${inviteId}`;
+  const appUrl = window.location.origin;
+  const shareUrl = `${appUrl}/invite/${inviteId}`;
   
-  const message = `📅 MÖTESINBJUDAN!
-
-${organizerName} har bjudit in dig till "${title}"
-
-🕐 ${slotsCount} föreslagna tider
-✅ Klicka för att välja dina tider
-
-👉 ${shareUrl}`;
+  // Kort meddelande - rich preview visar resten!
+  const message = `📅 Mötesinbjudan från ${organizerName}: "${title}"\n${shareUrl}`;
 
   const handleWhatsAppShare = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
