@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, ArrowLeft } from "lucide-react";
+import { Calendar, ArrowLeft, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCreateInvite } from "@/hooks/useCreateInvite";
 import { TimeSlotForm } from "@/components/meeting";
@@ -65,113 +64,129 @@ const CreateInvite = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen aurora-bg noise overflow-hidden">
+      {/* Floating decorative elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
+      </div>
+
+      <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-2xl mx-auto">
-          <div className="flex items-center mb-8">
-            <Link to="/" className="mr-4">
-              <Button variant="outline" size="sm">
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8 animate-fade-in">
+            <Link to="/">
+              <Button variant="outline" size="sm" className="glass border-border/50 hover:bg-secondary/50">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back
               </Button>
             </Link>
-            <div className="flex items-center">
-              <Calendar className="h-8 w-8 text-indigo-600 mr-3" />
-              <h1 className="text-3xl font-bold text-gray-900">Create Timeslots Invite</h1>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-xl blur-xl" />
+                <div className="relative glass-strong rounded-xl p-2">
+                  <Calendar className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Create Timeslots Invite</h1>
             </div>
           </div>
 
-          <Card className="shadow-lg border-0">
-            <CardHeader>
-              <CardTitle>Meeting Details</CardTitle>
-              <CardDescription>
-                Propose your meeting and pick some time slots. Keep it simple!
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-                  <div className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Meeting Title *</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="e.g., Team Sync, Project Review"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+          {/* Form Card */}
+          <div className="glass-strong rounded-3xl p-6 md:p-8 shadow-glass-lg animate-fade-in-up">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <h2 className="text-xl font-semibold text-foreground">Meeting Details</h2>
+            </div>
+            <p className="text-muted-foreground mb-6">
+              Propose your meeting and pick some time slots. Keep it simple!
+            </p>
 
-                    <FormField
-                      control={form.control}
-                      name="inviterName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your Name *</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Your name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Description (Optional)</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Brief description of the meeting"
-                              rows={3}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                <div className="space-y-4">
                   <FormField
                     control={form.control}
-                    name="timeSlots"
-                    render={() => (
+                    name="title"
+                    render={({ field }) => (
                       <FormItem>
-                        <TimeSlotForm
-                          timeSlots={timeSlots}
-                          onAdd={addTimeSlot}
-                          onRemove={removeTimeSlot}
-                          onUpdate={updateTimeSlot}
-                        />
+                        <FormLabel className="text-foreground">Meeting Title *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Team Sync, Project Review"
+                            className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-indigo-600 hover:bg-indigo-700"
-                    disabled={createInvite.isPending}
-                  >
-                    {createInvite.isPending ? "Creating..." : "Create Invite & Get Link"}
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+                  <FormField
+                    control={form.control}
+                    name="inviterName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-foreground">Your Name *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Your name"
+                            className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-foreground">Description (Optional)</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Brief description of the meeting"
+                            rows={3}
+                            className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="timeSlots"
+                  render={() => (
+                    <FormItem>
+                      <TimeSlotForm
+                        timeSlots={timeSlots}
+                        onAdd={addTimeSlot}
+                        onRemove={removeTimeSlot}
+                        onUpdate={updateTimeSlot}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl py-6 shadow-glow transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                  disabled={createInvite.isPending}
+                >
+                  {createInvite.isPending ? "Creating..." : "Create Invite & Get Link"}
+                </Button>
+              </form>
+            </Form>
+          </div>
         </div>
       </div>
     </div>
