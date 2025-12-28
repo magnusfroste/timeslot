@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://timeslot.lovable.app/sitemap.xml
+Sitemap: https://www.timeslot.fit/sitemap.xml
