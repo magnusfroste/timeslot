@@ -1,10 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { MeetingInvite, ParticipantResponse } from "@/types/meeting";
 
 export function useMeetingInvite(inviteId: string | undefined) {
   const queryClient = useQueryClient();
+  const [newResponseIds, setNewResponseIds] = useState<Set<string>>(new Set());
+  const initialLoadComplete = useRef(false);
 
   const inviteQuery = useQuery({
     queryKey: ['invite', inviteId],
@@ -49,6 +51,13 @@ export function useMeetingInvite(inviteId: string | undefined) {
     enabled: !!inviteId,
   });
 
+  // Mark initial load complete after first fetch
+  useEffect(() => {
+    if (responsesQuery.data && !initialLoadComplete.current) {
+      initialLoadComplete.current = true;
+    }
+  }, [responsesQuery.data]);
+
   // Subscribe to real-time updates for responses
   useEffect(() => {
     if (!inviteId) return;
@@ -58,7 +67,32 @@ export function useMeetingInvite(inviteId: string | undefined) {
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
+          schema: 'public',
+          table: 'participant_responses',
+          filter: `invite_id=eq.${inviteId}`
+        },
+        (payload) => {
+          if (initialLoadComplete.current && payload.new) {
+            const newId = (payload.new as ParticipantResponse).id;
+            setNewResponseIds(prev => new Set(prev).add(newId));
+            
+            // Clear the "new" indicator after 5 seconds
+            setTimeout(() => {
+              setNewResponseIds(prev => {
+                const updated = new Set(prev);
+                updated.delete(newId);
+                return updated;
+              });
+            }, 5000);
+          }
+          queryClient.invalidateQueries({ queryKey: ['responses', inviteId] });
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
           schema: 'public',
           table: 'participant_responses',
           filter: `invite_id=eq.${inviteId}`
@@ -80,11 +114,16 @@ export function useMeetingInvite(inviteId: string | undefined) {
     );
   };
 
+  const isNewResponse = (responseId: string): boolean => {
+    return newResponseIds.has(responseId);
+  };
+
   return {
     invite: inviteQuery.data,
     isLoading: inviteQuery.isLoading,
     responses: responsesQuery.data || [],
     responsesLoading: responsesQuery.isLoading,
     getSlotParticipants,
+    isNewResponse,
   };
 }

@@ -15,7 +15,7 @@ const MeetingInvite = () => {
   const [copied, setCopied] = useState(false);
   const [socialImageUrl, setSocialImageUrl] = useState<string>("");
 
-  const { invite, isLoading, responses, getSlotParticipants } = useMeetingInvite(inviteId);
+  const { invite, isLoading, responses, getSlotParticipants, isNewResponse } = useMeetingInvite(inviteId);
   const submitResponse = useSubmitResponse(inviteId);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ const MeetingInvite = () => {
           </div>
 
           <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <ParticipantsList responses={responses} />
+            <ParticipantsList responses={responses} isNewResponse={isNewResponse} />
           </div>
         </div>
       </div>
