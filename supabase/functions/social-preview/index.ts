@@ -70,7 +70,7 @@ serve(async (req) => {
   <meta property="og:image" content="${imageUrl}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="TimeSlot - Mötesbokningar">
+  <meta property="og:site_name" content="TimeSlotfit - Meeting Scheduling">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -161,5 +161,5 @@ function getAppUrl(): string {
   }
   
   // Fallback - this should be configured via environment variable in production
-  return Deno.env.get('APP_URL') ?? 'https://timeslot.lovable.app'
+  return Deno.env.get('APP_URL') ?? 'https://timeslotfit-demo.vercel.app'
 }
