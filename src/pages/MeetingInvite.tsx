@@ -75,8 +75,8 @@ const MeetingInvite = () => {
     );
   }
 
-  const socialTitle = `Meeting Invitation: ${invite.title}`;
-  const socialDescription = `${invite.inviter_name} is requesting your availability for "${invite.title}". ${invite.available_slots.length} time options available.`;
+  const socialTitle = invite.title;
+  const socialDescription = `${invite.inviter_name} vill boka ett möte med dig! ${invite.available_slots.length} tider att välja mellan. Svara direkt genom att klicka på länken.`;
   const socialUrl = window.location.href;
 
   return (
