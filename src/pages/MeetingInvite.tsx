@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Users } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
 import { useSubmitResponse } from "@/hooks/useSubmitResponse";
 import { TimeSlotCard, ParticipantsList, ResponseForm } from "@/components/meeting";
+import ShareButtons from "@/components/meeting/ShareButtons";
 
 const MeetingInvite = () => {
   const { inviteId } = useParams();
@@ -112,16 +113,28 @@ const MeetingInvite = () => {
               <p className="text-muted-foreground max-w-2xl mx-auto mt-2">{invite.description}</p>
             )}
             
-            {/* Share link */}
-            <div className="mt-6 flex justify-center">
-              <Button
-                variant="outline"
-                onClick={copyLink}
-                className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
-              >
-                {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-                {copied ? "Copied!" : "Share Link"}
-              </Button>
+            {/* Share buttons */}
+            <div className="mt-6 space-y-3">
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  onClick={copyLink}
+                  className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
+                >
+                  {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+                  {copied ? "Kopierad!" : "Kopiera länk"}
+                </Button>
+              </div>
+              
+              <div className="border-t border-border/30 pt-3">
+                <p className="text-xs text-muted-foreground mb-2 text-center">Dela via</p>
+                <ShareButtons 
+                  inviteId={inviteId!}
+                  title={invite.title}
+                  organizerName={invite.inviter_name}
+                  slotsCount={invite.available_slots.length}
+                />
+              </div>
             </div>
           </div>
 
