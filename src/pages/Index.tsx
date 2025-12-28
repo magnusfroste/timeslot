@@ -37,11 +37,11 @@ const Index = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
-            The <span className="text-foreground font-semibold">simplest way</span> to schedule meetings.
-            Create time slots, share the link, and let others pick their availability.
+            The <span className="text-foreground font-semibold">easiest way</span> to find a time that works for your incredible team.
+            Create time slots, share the link, and see availability in real-time.
           </p>
           <p className="text-sm text-muted-foreground/70 mb-10">
-            No registration required
+            No sign-up required – free forever
           </p>
 
           {/* CTA Button */}
