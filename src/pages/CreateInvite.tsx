@@ -1,26 +1,25 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, ArrowLeft, Plus, Trash2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { Calendar, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useCreateInvite, type TimeSlot } from "@/hooks/useCreateInvite";
+import { TimeSlotForm } from "@/components/meeting/TimeSlotForm";
 
 const CreateInvite = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     inviterName: "",
   });
-  const [timeSlots, setTimeSlots] = useState([
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
     { date: "", time: "" }
   ]);
+
+  const createInvite = useCreateInvite();
 
   const addTimeSlot = () => {
     setTimeSlots([...timeSlots, { date: "", time: "" }]);
@@ -38,60 +37,14 @@ const CreateInvite = () => {
     setTimeSlots(updated);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // Validate form
-      if (!formData.title || !formData.inviterName) {
-        toast.error("Please fill in the meeting title and your name");
-        return;
-      }
-
-      // Filter and format valid time slots
-      const validSlots = timeSlots
-        .filter(slot => slot.date && slot.time)
-        .map(slot => `${slot.date}T${slot.time}:00`);
-
-      if (validSlots.length === 0) {
-        toast.error("Please add at least one time slot");
-        return;
-      }
-
-      console.log("Creating invite with data:", {
-        title: formData.title,
-        description: formData.description,
-        inviter_name: formData.inviterName,
-        available_slots: validSlots
-      });
-
-      const { data, error } = await supabase
-        .from('meeting_invites')
-        .insert({
-          title: formData.title,
-          description: formData.description,
-          inviter_name: formData.inviterName,
-          available_slots: validSlots
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error creating invite:", error);
-        toast.error("Failed to create invite. Please try again.");
-        return;
-      }
-
-      console.log("Created invite:", data);
-      toast.success("Meeting invite created successfully!");
-      navigate(`/invite/${data.id}`);
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    createInvite.mutate({
+      title: formData.title,
+      description: formData.description,
+      inviterName: formData.inviterName,
+      timeSlots,
+    });
   };
 
   return (
@@ -156,57 +109,19 @@ const CreateInvite = () => {
                   </div>
                 </div>
 
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <Label className="text-base font-semibold">Available Time Slots</Label>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addTimeSlot}
-                    >
-                      <Plus className="h-4 w-4 mr-1" />
-                      Add Slot
-                    </Button>
-                  </div>
-
-                  <div className="space-y-3">
-                    {timeSlots.map((slot, index) => (
-                      <div key={index} className="flex gap-3 items-center">
-                        <Input
-                          type="date"
-                          value={slot.date}
-                          onChange={(e) => updateTimeSlot(index, 'date', e.target.value)}
-                          className="flex-1"
-                          min={new Date().toISOString().split('T')[0]}
-                        />
-                        <Input
-                          type="time"
-                          value={slot.time}
-                          onChange={(e) => updateTimeSlot(index, 'time', e.target.value)}
-                          className="flex-1"
-                        />
-                        {timeSlots.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() => removeTimeSlot(index)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <TimeSlotForm
+                  timeSlots={timeSlots}
+                  onAdd={addTimeSlot}
+                  onRemove={removeTimeSlot}
+                  onUpdate={updateTimeSlot}
+                />
 
                 <Button 
                   type="submit" 
                   className="w-full bg-indigo-600 hover:bg-indigo-700"
-                  disabled={isLoading}
+                  disabled={createInvite.isPending}
                 >
-                  {isLoading ? "Creating..." : "Create Invite & Get Link"}
+                  {createInvite.isPending ? "Creating..." : "Create Invite & Get Link"}
                 </Button>
               </form>
             </CardContent>
