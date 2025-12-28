@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCreateInvite } from "@/hooks/useCreateInvite";
-import { TimeSlotForm } from "@/components/meeting/TimeSlotForm";
+import { TimeSlotForm } from "@/components/meeting";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
 import {
   Form,
