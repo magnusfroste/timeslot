@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
@@ -11,8 +10,6 @@ function formatTimeSlots(timeSlots: TimeSlot[]): string[] {
 }
 
 export function useCreateInvite() {
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: async (params: CreateInviteFormData) => {
       // Validate with zod schema
@@ -36,9 +33,8 @@ export function useCreateInvite() {
 
       return data;
     },
-    onSuccess: (data) => {
-      toast.success("Meeting invite created successfully!");
-      navigate(`/invite/${data.id}`);
+    onSuccess: () => {
+      toast.success("Mötesinbjudan skapad!");
     },
     onError: (error: Error) => {
       toast.error(error.message);
