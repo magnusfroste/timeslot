@@ -26,17 +26,8 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
   };
 
   const handleEmailShare = () => {
-    const subject = `📅 Mötesinbjudan: ${title}`;
-    const body = `Hej!
-
-${organizerName} har bjudit in dig till "${title}".
-
-Det finns ${slotsCount} föreslagna tider att välja mellan.
-
-Klicka på länken nedan för att se tiderna och svara:
-${shareUrl}
-
-Med vänliga hälsningar`;
+    const subject = `Mötesinbjudan: ${title}`;
+    const body = `${organizerName} bjuder in dig till "${title}"\n\n${shareUrl}`;
 
     const emailUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = emailUrl;
