@@ -7,9 +7,7 @@ import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
 import { useSubmitResponse } from "@/hooks/useSubmitResponse";
-import { TimeSlotCard } from "@/components/meeting/TimeSlotCard";
-import { ParticipantsList } from "@/components/meeting/ParticipantsList";
-import { ResponseForm } from "@/components/meeting/ResponseForm";
+import { TimeSlotCard, ParticipantsList, ResponseForm } from "@/components/meeting";
 
 const MeetingInvite = () => {
   const { inviteId } = useParams();
