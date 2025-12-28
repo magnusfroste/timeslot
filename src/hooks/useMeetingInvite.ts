@@ -1,8 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { MeetingInvite, ParticipantResponse } from "@/types/meeting";
 
 export function useMeetingInvite(inviteId: string | undefined) {
+  const queryClient = useQueryClient();
+
   const inviteQuery = useQuery({
     queryKey: ['invite', inviteId],
     queryFn: async () => {
@@ -45,6 +48,31 @@ export function useMeetingInvite(inviteId: string | undefined) {
     },
     enabled: !!inviteId,
   });
+
+  // Subscribe to real-time updates for responses
+  useEffect(() => {
+    if (!inviteId) return;
+
+    const channel = supabase
+      .channel(`responses-${inviteId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'participant_responses',
+          filter: `invite_id=eq.${inviteId}`
+        },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ['responses', inviteId] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [inviteId, queryClient]);
 
   const getSlotParticipants = (slot: string): ParticipantResponse[] => {
     return (responsesQuery.data || []).filter(response => 
