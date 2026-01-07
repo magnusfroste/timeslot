@@ -86,14 +86,56 @@ export type Database = {
             referencedRelation: "meeting_invites"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "participant_responses_invite_id_fkey"
+            columns: ["invite_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_invites_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      meeting_invites_public: {
+        Row: {
+          available_slots: string[] | null
+          created_at: string | null
+          creator_timezone: string | null
+          description: string | null
+          expires_at: string | null
+          id: string | null
+          inviter_name: string | null
+          title: string | null
+        }
+        Insert: {
+          available_slots?: string[] | null
+          created_at?: string | null
+          creator_timezone?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string | null
+          inviter_name?: string | null
+          title?: string | null
+        }
+        Update: {
+          available_slots?: string[] | null
+          created_at?: string | null
+          creator_timezone?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string | null
+          inviter_name?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      verify_edit_token: {
+        Args: { invite_id: string; token: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

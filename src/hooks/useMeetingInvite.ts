@@ -13,8 +13,9 @@ export function useMeetingInvite(inviteId: string | undefined) {
     queryFn: async () => {
       if (!inviteId) return null;
       
+      // Use the public view to avoid exposing edit_token
       const { data, error } = await supabase
-        .from('meeting_invites')
+        .from('meeting_invites_public')
         .select('*')
         .eq('id', inviteId)
         .maybeSingle();
