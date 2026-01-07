@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
@@ -108,6 +108,20 @@ const MeetingInvite = () => {
       
       <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
+          {/* Top bar with create button */}
+          <div className="flex justify-end mb-4 animate-fade-in">
+            <Link to="/create">
+              <Button
+                variant="outline"
+                size="sm"
+                className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Create New Meeting
+              </Button>
+            </Link>
+          </div>
+
           {/* Header */}
           <div className="text-center mb-10 animate-fade-in-up">
             <div className="flex justify-center mb-6">
