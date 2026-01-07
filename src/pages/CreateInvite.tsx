@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCreateInvite } from "@/hooks/useCreateInvite";
 import { TimeSlotForm } from "@/components/meeting";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
+import Footer from "@/components/Footer";
 import {
   Form,
   FormControl,
@@ -204,6 +205,8 @@ const CreateInvite = () => {
               </form>
             </Form>
           </div>
+
+          <Footer />
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { Calendar, ArrowLeft, Pencil, Trash2, AlertTriangle, Eye } from "lucide-
 import { useEditInvite } from "@/hooks/useEditInvite";
 import { TimeSlotForm } from "@/components/meeting";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
+import Footer from "@/components/Footer";
 import {
   Form,
   FormControl,
@@ -307,6 +308,8 @@ const EditInvite = () => {
               </form>
             </Form>
           </div>
+
+          <Footer />
         </div>
       </div>
     </div>
