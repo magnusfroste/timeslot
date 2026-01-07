@@ -17,6 +17,7 @@ export type Database = {
       meeting_invites: {
         Row: {
           available_slots: string[]
+          confirmed_slot: string | null
           created_at: string
           creator_timezone: string
           description: string | null
@@ -28,6 +29,7 @@ export type Database = {
         }
         Insert: {
           available_slots?: string[]
+          confirmed_slot?: string | null
           created_at?: string
           creator_timezone?: string
           description?: string | null
@@ -39,6 +41,7 @@ export type Database = {
         }
         Update: {
           available_slots?: string[]
+          confirmed_slot?: string | null
           created_at?: string
           creator_timezone?: string
           description?: string | null
@@ -103,6 +106,7 @@ export type Database = {
       meeting_invites_public: {
         Row: {
           available_slots: string[] | null
+          confirmed_slot: string | null
           created_at: string | null
           creator_timezone: string | null
           description: string | null
@@ -113,6 +117,7 @@ export type Database = {
         }
         Insert: {
           available_slots?: string[] | null
+          confirmed_slot?: string | null
           created_at?: string | null
           creator_timezone?: string | null
           description?: string | null
@@ -123,6 +128,7 @@ export type Database = {
         }
         Update: {
           available_slots?: string[] | null
+          confirmed_slot?: string | null
           created_at?: string | null
           creator_timezone?: string | null
           description?: string | null
