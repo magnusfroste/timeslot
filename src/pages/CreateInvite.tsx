@@ -124,15 +124,15 @@ const CreateInvite = () => {
               </div>
 
               <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                Mötet skapat! 🎉
+                Meeting Created! 🎉
               </h1>
               <p className="text-muted-foreground mb-6">
-                Din mötesinbjudan "<span className="text-foreground font-medium">{createdInvite.title}</span>" är redo att delas.
+                Your meeting invite "<span className="text-foreground font-medium">{createdInvite.title}</span>" is ready to share.
               </p>
 
               {/* Quick copy link */}
               <div className="bg-background/50 rounded-xl p-4 mb-6">
-                <p className="text-sm text-muted-foreground mb-2">Delningslänk</p>
+                <p className="text-sm text-muted-foreground mb-2">Share link</p>
                 <div className="flex items-center gap-2">
                   <code className="flex-1 text-sm text-foreground bg-background/50 rounded-lg px-3 py-2 truncate">
                     {window.location.origin}/invite/{createdInvite.id}
@@ -144,14 +144,14 @@ const CreateInvite = () => {
                     className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2 shrink-0"
                   >
                     {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-                    {copied ? "Kopierad!" : "Kopiera"}
+                    {copied ? "Copied!" : "Copy"}
                   </Button>
                 </div>
               </div>
 
               {/* Share buttons */}
               <div className="border-t border-border/30 pt-6 mb-6">
-                <p className="text-sm text-muted-foreground mb-3">Dela direkt via</p>
+                <p className="text-sm text-muted-foreground mb-3">Share directly via</p>
                 <ShareButtons
                   inviteId={createdInvite.id}
                   title={createdInvite.title}
@@ -167,7 +167,7 @@ const CreateInvite = () => {
                   className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl gap-2"
                 >
                   <ExternalLink className="h-4 w-4" />
-                  Visa inbjudan
+                  View Invite
                 </Button>
                 <Button
                   variant="outline"
@@ -175,7 +175,7 @@ const CreateInvite = () => {
                   className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
                 >
                   <Calendar className="h-4 w-4" />
-                  Skapa nytt möte
+                  Create Another
                 </Button>
               </div>
             </div>
@@ -200,7 +200,7 @@ const CreateInvite = () => {
             <Link to="/">
               <Button variant="outline" size="sm" className="glass border-border/50 hover:bg-secondary/50">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Tillbaka
+                Back
               </Button>
             </Link>
             <div className="flex items-center gap-3">
@@ -210,7 +210,7 @@ const CreateInvite = () => {
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Skapa mötesinbjudan</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Create Meeting Invite</h1>
             </div>
           </div>
 
@@ -218,10 +218,10 @@ const CreateInvite = () => {
           <div className="glass-strong rounded-3xl p-6 md:p-8 shadow-glass-lg animate-fade-in-up">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold text-foreground">Mötesdetaljer</h2>
+              <h2 className="text-xl font-semibold text-foreground">Meeting Details</h2>
             </div>
             <p className="text-muted-foreground mb-6">
-              Beskriv ditt möte och välj några tider. Enkelt!
+              Describe your meeting and choose some times. Simple!
             </p>
 
             <Form {...form}>
@@ -232,10 +232,10 @@ const CreateInvite = () => {
                     name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-foreground">Mötestitel *</FormLabel>
+                        <FormLabel className="text-foreground">Meeting Title *</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="t.ex. Planeringsmöte, Projektuppföljning"
+                            placeholder="e.g. Planning meeting, Project review"
                             className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
                             {...field}
                           />
@@ -250,10 +250,10 @@ const CreateInvite = () => {
                     name="inviterName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-foreground">Ditt namn *</FormLabel>
+                        <FormLabel className="text-foreground">Your Name *</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Ditt namn"
+                            placeholder="Your name"
                             className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
                             {...field}
                           />
@@ -268,10 +268,10 @@ const CreateInvite = () => {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-foreground">Beskrivning (valfritt)</FormLabel>
+                        <FormLabel className="text-foreground">Description (optional)</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Kort beskrivning av mötet"
+                            placeholder="Brief description of the meeting"
                             rows={3}
                             className="bg-background/50 border-border/50 focus:border-primary/50 rounded-xl resize-none"
                             {...field}
@@ -305,7 +305,7 @@ const CreateInvite = () => {
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl py-6 shadow-glow transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
                   disabled={createInvite.isPending}
                 >
-                  {createInvite.isPending ? "Skapar..." : "Skapa inbjudan"}
+                  {createInvite.isPending ? "Creating..." : "Create Invite"}
                 </Button>
               </form>
             </Form>
