@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, ArrowLeft, Sparkles, Check, Copy, ExternalLink } from "lucide-react";
+import { Calendar, ArrowLeft, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateInvite } from "@/hooks/useCreateInvite";
-import { TimeSlotForm, ShareButtons } from "@/components/meeting";
+import { TimeSlotForm } from "@/components/meeting";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
 import {
   Form,
@@ -18,20 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-interface CreatedInvite {
-  id: string;
-  title: string;
-  inviter_name: string;
-  available_slots: string[];
-}
-
 const CreateInvite = () => {
   const navigate = useNavigate();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
     { date: "", time: "" }
   ]);
-  const [createdInvite, setCreatedInvite] = useState<CreatedInvite | null>(null);
-  const [copied, setCopied] = useState(false);
 
   const form = useForm<CreateInviteFormData>({
     resolver: zodResolver(createInviteSchema),
@@ -81,109 +72,10 @@ const CreateInvite = () => {
       timeSlots,
     }, {
       onSuccess: (invite) => {
-        setCreatedInvite(invite);
+        navigate(`/invite/${invite.id}`);
       }
     });
   };
-
-  const copyLink = () => {
-    if (!createdInvite) return;
-    const link = `${window.location.origin}/invite/${createdInvite.id}`;
-    navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleCreateAnother = () => {
-    setCreatedInvite(null);
-    setTimeSlots([{ date: "", time: "" }]);
-    form.reset();
-  };
-
-  // Success state - show sharing options
-  if (createdInvite) {
-    return (
-      <div className="min-h-screen aurora-bg noise overflow-hidden">
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 right-20 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
-        </div>
-
-        <div className="relative container mx-auto px-4 py-8 md:py-12">
-          <div className="max-w-2xl mx-auto">
-            {/* Success Card */}
-            <div className="glass-strong rounded-3xl p-6 md:p-8 shadow-glass-lg animate-fade-in-up text-center">
-              {/* Success icon */}
-              <div className="flex justify-center mb-6">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-accent/30 rounded-full blur-xl scale-150 animate-pulse" />
-                  <div className="relative w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center">
-                    <Check className="h-10 w-10 text-accent" />
-                  </div>
-                </div>
-              </div>
-
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                Meeting Created! 🎉
-              </h1>
-              <p className="text-muted-foreground mb-6">
-                Your meeting invite "<span className="text-foreground font-medium">{createdInvite.title}</span>" is ready to share.
-              </p>
-
-              {/* Quick copy link */}
-              <div className="bg-background/50 rounded-xl p-4 mb-6">
-                <p className="text-sm text-muted-foreground mb-2">Share link</p>
-                <div className="flex items-center gap-2">
-                  <code className="flex-1 text-sm text-foreground bg-background/50 rounded-lg px-3 py-2 truncate">
-                    {window.location.origin}/invite/{createdInvite.id}
-                  </code>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={copyLink}
-                    className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2 shrink-0"
-                  >
-                    {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-                    {copied ? "Copied!" : "Copy"}
-                  </Button>
-                </div>
-              </div>
-
-              {/* Share buttons */}
-              <div className="border-t border-border/30 pt-6 mb-6">
-                <p className="text-sm text-muted-foreground mb-3">Share directly via</p>
-                <ShareButtons
-                  inviteId={createdInvite.id}
-                  title={createdInvite.title}
-                  organizerName={createdInvite.inviter_name}
-                  slotsCount={createdInvite.available_slots.length}
-                />
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button
-                  onClick={() => navigate(`/invite/${createdInvite.id}`)}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl gap-2"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  View Invite
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleCreateAnother}
-                  className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Create Another
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
