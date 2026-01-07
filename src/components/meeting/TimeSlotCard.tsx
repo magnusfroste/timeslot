@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Users, Check } from "lucide-react";
 import { format } from "date-fns";
+import { fromZonedTime } from "date-fns-tz";
 import type { ParticipantResponse } from "@/types/meeting";
 
 interface TimeSlotCardProps {
@@ -8,9 +9,41 @@ interface TimeSlotCardProps {
   isSelected: boolean;
   participants: ParticipantResponse[];
   onToggle: (slot: string) => void;
+  creatorTimezone?: string;
 }
 
-export function TimeSlotCard({ slot, isSelected, participants, onToggle }: TimeSlotCardProps) {
+function getShortTimezone(timezone: string): string {
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      timeZoneName: 'short'
+    });
+    const parts = formatter.formatToParts(new Date());
+    const tzPart = parts.find(p => p.type === 'timeZoneName');
+    return tzPart?.value || timezone.split('/').pop() || timezone;
+  } catch {
+    return timezone.split('/').pop() || timezone;
+  }
+}
+
+export function TimeSlotCard({ slot, isSelected, participants, onToggle, creatorTimezone }: TimeSlotCardProps) {
+  const viewerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const isSameTimezone = creatorTimezone === viewerTimezone;
+  
+  // Convert the slot from creator's timezone to UTC, then to viewer's local time
+  let localDate: Date;
+  let creatorDate: Date;
+  
+  if (creatorTimezone) {
+    // The slot is in creator's timezone, convert to UTC first
+    const utcDate = fromZonedTime(slot, creatorTimezone);
+    localDate = utcDate; // This will display in viewer's local timezone
+    creatorDate = new Date(slot); // Original time as entered by creator
+  } else {
+    localDate = new Date(slot);
+    creatorDate = new Date(slot);
+  }
+
   return (
     <div
       className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
@@ -29,10 +62,15 @@ export function TimeSlotCard({ slot, isSelected, participants, onToggle }: TimeS
           )}
           <div>
             <p className="font-semibold text-foreground">
-              {format(new Date(slot), 'EEEE, MMMM d')}
+              {format(localDate, 'EEEE, MMMM d')}
             </p>
-            <p className="text-sm text-muted-foreground">
-              {format(new Date(slot), 'h:mm a')}
+            <p className="text-sm text-foreground">
+              {format(localDate, 'h:mm a')}
+              {!isSameTimezone && creatorTimezone && (
+                <span className="text-muted-foreground ml-1">
+                  ({format(creatorDate, 'h:mm a')} {getShortTimezone(creatorTimezone)})
+                </span>
+              )}
             </p>
           </div>
         </div>

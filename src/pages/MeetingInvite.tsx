@@ -183,7 +183,9 @@ const MeetingInvite = () => {
               </p>
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground/70 mb-5">
                 <Globe className="h-3 w-3" />
-                <span>{Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+                <span>
+                  Showing times in your timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone})
+                </span>
               </div>
               <div className="space-y-3">
                 {invite.available_slots.map((slot, index) => (
@@ -193,6 +195,7 @@ const MeetingInvite = () => {
                     isSelected={selectedSlots.includes(slot)}
                     participants={getSlotParticipants(slot)}
                     onToggle={toggleSlot}
+                    creatorTimezone={invite.creator_timezone}
                   />
                 ))}
               </div>

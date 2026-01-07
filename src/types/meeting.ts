@@ -4,6 +4,7 @@ export interface MeetingInvite {
   description: string | null;
   inviter_name: string;
   available_slots: string[];
+  creator_timezone: string;
   created_at: string;
   expires_at: string | null;
 }

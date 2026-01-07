@@ -25,7 +25,8 @@ export function useMeetingInvite(inviteId: string | undefined) {
       
       return {
         ...data,
-        available_slots: data.available_slots as string[]
+        available_slots: data.available_slots as string[],
+        creator_timezone: data.creator_timezone || 'UTC'
       } as MeetingInvite;
     },
     enabled: !!inviteId,

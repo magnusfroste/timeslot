@@ -9,12 +9,17 @@ function formatTimeSlots(timeSlots: TimeSlot[]): string[] {
     .map(slot => `${slot.date}T${slot.time}:00`);
 }
 
+function getLocalTimezone(): string {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
 export function useCreateInvite() {
   return useMutation({
     mutationFn: async (params: CreateInviteFormData) => {
       // Validate with zod schema
       const validated = createInviteSchema.parse(params);
       const validSlots = formatTimeSlots(validated.timeSlots);
+      const creatorTimezone = getLocalTimezone();
 
       const { data, error } = await supabase
         .from('meeting_invites')
@@ -22,7 +27,8 @@ export function useCreateInvite() {
           title: validated.title,
           description: validated.description,
           inviter_name: validated.inviterName,
-          available_slots: validSlots
+          available_slots: validSlots,
+          creator_timezone: creatorTimezone
         })
         .select()
         .single();

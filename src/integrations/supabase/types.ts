@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           available_slots: string[]
           created_at: string
+          creator_timezone: string
           description: string | null
           expires_at: string | null
           id: string
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           available_slots?: string[]
           created_at?: string
+          creator_timezone?: string
           description?: string | null
           expires_at?: string | null
           id?: string
@@ -36,6 +38,7 @@ export type Database = {
         Update: {
           available_slots?: string[]
           created_at?: string
+          creator_timezone?: string
           description?: string | null
           expires_at?: string | null
           id?: string
