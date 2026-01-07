@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Radio } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
 import { useSubmitResponse } from "@/hooks/useSubmitResponse";
+import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { TimeSlotCard, ParticipantsList, ResponseForm } from "@/components/meeting";
 import ShareButtons from "@/components/meeting/ShareButtons";
 
@@ -15,9 +16,19 @@ const MeetingInvite = () => {
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
   const [socialImageUrl, setSocialImageUrl] = useState<string>("");
+  const prevResponseCount = useRef<number | null>(null);
 
   const { invite, isLoading, responses, getSlotParticipants, isNewResponse, hasNewResponses } = useMeetingInvite(inviteId);
   const submitResponse = useSubmitResponse(inviteId);
+  const { soundEnabled, toggleSound, playNotificationSound } = useNotificationSound();
+
+  // Play sound when new responses come in
+  useEffect(() => {
+    if (prevResponseCount.current !== null && responses.length > prevResponseCount.current) {
+      playNotificationSound();
+    }
+    prevResponseCount.current = responses.length;
+  }, [responses.length, playNotificationSound]);
 
   useEffect(() => {
     if (invite && invite.available_slots && Array.isArray(invite.available_slots)) {
@@ -146,12 +157,25 @@ const MeetingInvite = () => {
                   <Clock className="h-5 w-5 text-primary" />
                   <h2 className="text-xl font-semibold text-foreground">Available Time Slots</h2>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className={`relative flex h-2 w-2 ${hasNewResponses ? 'animate-pulse' : ''}`}>
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 animate-ping" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-                  </span>
-                  Live
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={toggleSound}
+                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    title={soundEnabled ? "Mute notifications" : "Enable sound notifications"}
+                  >
+                    {soundEnabled ? (
+                      <Volume2 className="h-3.5 w-3.5" />
+                    ) : (
+                      <VolumeX className="h-3.5 w-3.5" />
+                    )}
+                  </button>
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <span className={`relative flex h-2 w-2 ${hasNewResponses ? 'animate-pulse' : ''}`}>
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 animate-ping" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                    </span>
+                    Live
+                  </div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mb-5">
