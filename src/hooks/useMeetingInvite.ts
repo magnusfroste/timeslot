@@ -38,8 +38,9 @@ export function useMeetingInvite(inviteId: string | undefined) {
     queryFn: async () => {
       if (!inviteId) return [];
       
+      // Use the public view to avoid exposing response_token
       const { data, error } = await supabase
-        .from('participant_responses')
+        .from('participant_responses_public')
         .select('*')
         .eq('invite_id', inviteId);
       

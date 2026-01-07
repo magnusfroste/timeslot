@@ -18,4 +18,5 @@ export interface ParticipantResponse {
   selected_slots: string[];
   created_at: string;
   updated_at: string;
+  response_token?: string; // Only returned on INSERT, used for secure updates
 }

@@ -57,6 +57,7 @@ export type Database = {
           invite_id: string
           participant_initials: string
           participant_name: string
+          response_token: string
           selected_slots: string[]
           updated_at: string
         }
@@ -66,6 +67,7 @@ export type Database = {
           invite_id: string
           participant_initials: string
           participant_name: string
+          response_token?: string
           selected_slots?: string[]
           updated_at?: string
         }
@@ -75,6 +77,7 @@ export type Database = {
           invite_id?: string
           participant_initials?: string
           participant_name?: string
+          response_token?: string
           selected_slots?: string[]
           updated_at?: string
         }
@@ -130,10 +133,59 @@ export type Database = {
         }
         Relationships: []
       }
+      participant_responses_public: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          invite_id: string | null
+          participant_initials: string | null
+          participant_name: string | null
+          selected_slots: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          invite_id?: string | null
+          participant_initials?: string | null
+          participant_name?: string | null
+          selected_slots?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          invite_id?: string | null
+          participant_initials?: string | null
+          participant_name?: string | null
+          selected_slots?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participant_responses_invite_id_fkey"
+            columns: ["invite_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_invites"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participant_responses_invite_id_fkey"
+            columns: ["invite_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_invites_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       verify_edit_token: {
         Args: { invite_id: string; token: string }
+        Returns: boolean
+      }
+      verify_response_token: {
+        Args: { response_id: string; token: string }
         Returns: boolean
       }
     }
