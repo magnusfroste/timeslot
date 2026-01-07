@@ -152,6 +152,25 @@ const MeetingInvite = () => {
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
   };
 
+  // Generate Outlook Calendar URL
+  const getOutlookCalendarUrl = () => {
+    if (!confirmedDisplay || !invite) return '';
+    
+    const startDate = confirmedDisplay.utcDate;
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+    
+    const params = new URLSearchParams({
+      subject: invite.title,
+      body: invite.description || `Meeting organized by ${invite.inviter_name}`,
+      startdt: startDate.toISOString(),
+      enddt: endDate.toISOString(),
+      path: '/calendar/action/compose',
+      rru: 'addevent'
+    });
+    
+    return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+  };
+
   // Generate and download iCal file
   const downloadICalFile = () => {
     if (!confirmedDisplay || !invite) return;
@@ -225,6 +244,15 @@ const MeetingInvite = () => {
                 >
                   <Calendar className="h-4 w-4" />
                   Google
+                </a>
+                <a
+                  href={getOutlookCalendarUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Outlook
                 </a>
                 <button
                   onClick={downloadICalFile}
