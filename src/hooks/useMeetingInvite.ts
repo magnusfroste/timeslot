@@ -118,6 +118,8 @@ export function useMeetingInvite(inviteId: string | undefined) {
     return newResponseIds.has(responseId);
   };
 
+  const hasNewResponses = newResponseIds.size > 0;
+
   return {
     invite: inviteQuery.data,
     isLoading: inviteQuery.isLoading,
@@ -125,5 +127,6 @@ export function useMeetingInvite(inviteId: string | undefined) {
     responsesLoading: responsesQuery.isLoading,
     getSlotParticipants,
     isNewResponse,
+    hasNewResponses,
   };
 }
