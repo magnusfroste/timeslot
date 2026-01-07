@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus, Pencil, Key } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus, Pencil, Key, CalendarCheck } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { fromZonedTime } from "date-fns-tz";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
 import { useEditInvite } from "@/hooks/useEditInvite";
@@ -113,6 +115,23 @@ const MeetingInvite = () => {
   const socialDescription = `${invite.inviter_name} wants to schedule a meeting with you! ${invite.available_slots.length} time slots to choose from. Respond directly by clicking the link.`;
   const socialUrl = window.location.href;
 
+  // Format confirmed slot for display
+  const getConfirmedSlotDisplay = () => {
+    if (!invite?.confirmed_slot) return null;
+    
+    const creatorTimezone = invite.creator_timezone || 'UTC';
+    const viewerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcDate = fromZonedTime(invite.confirmed_slot, creatorTimezone);
+    
+    return {
+      date: format(utcDate, 'EEEE, MMMM d'),
+      time: format(utcDate, 'h:mm a'),
+      timezone: viewerTimezone
+    };
+  };
+
+  const confirmedDisplay = getConfirmedSlotDisplay();
+
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
       <SocialMeta 
@@ -127,6 +146,23 @@ const MeetingInvite = () => {
         <div className="absolute top-10 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
       </div>
+
+      {/* Confirmed Time Banner */}
+      {confirmedDisplay && (
+        <div className="relative bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-center gap-3 text-center">
+              <CalendarCheck className="h-6 w-6 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium opacity-90">Meeting Confirmed</p>
+                <p className="text-lg md:text-xl font-bold">
+                  {confirmedDisplay.date} at {confirmedDisplay.time}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
