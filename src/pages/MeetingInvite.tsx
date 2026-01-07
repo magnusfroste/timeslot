@@ -77,7 +77,7 @@ const MeetingInvite = () => {
   }
 
   const socialTitle = invite.title;
-  const socialDescription = `${invite.inviter_name} vill boka ett möte med dig! ${invite.available_slots.length} tider att välja mellan. Svara direkt genom att klicka på länken.`;
+  const socialDescription = `${invite.inviter_name} wants to schedule a meeting with you! ${invite.available_slots.length} time slots to choose from. Respond directly by clicking the link.`;
   const socialUrl = window.location.href;
 
   return (
@@ -122,12 +122,12 @@ const MeetingInvite = () => {
                   className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
                 >
                   {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-                  {copied ? "Kopierad!" : "Kopiera länk"}
+                  {copied ? "Copied!" : "Copy Link"}
                 </Button>
               </div>
               
               <div className="border-t border-border/30 pt-3">
-                <p className="text-xs text-muted-foreground mb-2 text-center">Dela via</p>
+                <p className="text-xs text-muted-foreground mb-2 text-center">Share via</p>
                 <ShareButtons 
                   inviteId={inviteId!}
                   title={invite.title}

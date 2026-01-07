@@ -12,8 +12,8 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
   const appUrl = window.location.origin;
   const shareUrl = `${appUrl}/invite/${inviteId}`;
   
-  // Kort meddelande - rich preview visar resten!
-  const message = `📅 Mötesinbjudan från ${organizerName}: "${title}"\n${shareUrl}`;
+  // Short message - rich preview shows the rest!
+  const message = `📅 Meeting invite from ${organizerName}: "${title}"\n${shareUrl}`;
 
   const handleWhatsAppShare = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -26,8 +26,8 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
   };
 
   const handleEmailShare = () => {
-    const subject = `Mötesinbjudan: ${title}`;
-    const body = `${organizerName} bjuder in dig till "${title}"\n\n${shareUrl}`;
+    const subject = `Meeting Invite: ${title}`;
+    const body = `${organizerName} invites you to "${title}"\n\n${shareUrl}`;
 
     const emailUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = emailUrl;
@@ -37,8 +37,8 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `📅 Mötesinbjudan: ${title}`,
-          text: `${organizerName} har bjudit in dig till "${title}". ${slotsCount} tider att välja mellan.`,
+          title: `📅 Meeting Invite: ${title}`,
+          text: `${organizerName} has invited you to "${title}". ${slotsCount} time slots to choose from.`,
           url: shareUrl
         });
       } catch (err) {
@@ -80,7 +80,7 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
         className="glass border-border/50 hover:bg-orange-500/20 hover:border-orange-500/50 rounded-xl gap-2 text-sm"
       >
         <Mail className="h-4 w-4 text-orange-500" />
-        E-post
+        Email
       </Button>
 
       {navigator.share && (
@@ -91,7 +91,7 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
           className="glass border-border/50 hover:bg-primary/20 hover:border-primary/50 rounded-xl gap-2 text-sm"
         >
           <Share2 className="h-4 w-4 text-primary" />
-          Dela
+          Share
         </Button>
       )}
     </div>
