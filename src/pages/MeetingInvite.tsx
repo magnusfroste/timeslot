@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
@@ -178,9 +178,13 @@ const MeetingInvite = () => {
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-5">
-                Click on the times you're available. The number shows how many have responded for each slot.
+              <p className="text-sm text-muted-foreground mb-2">
+                Click on the times you're available. The number shows how many have responded.
               </p>
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground/70 mb-5">
+                <Globe className="h-3 w-3" />
+                <span>{Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+              </div>
               <div className="space-y-3">
                 {invite.available_slots.map((slot, index) => (
                   <TimeSlotCard
