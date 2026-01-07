@@ -34,7 +34,7 @@ export function useCreateInvite() {
       return data;
     },
     onSuccess: () => {
-      toast.success("Mötesinbjudan skapad!");
+      toast.success("Meeting invite created!");
     },
     onError: (error: Error) => {
       toast.error(error.message);
