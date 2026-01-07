@@ -23,7 +23,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
           <Label className="text-base font-semibold text-foreground">Proposed Times</Label>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
-          We recommend proposing 2-5 time slots. Too many options can be overwhelming for participants.
+          We recommend proposing 4-6 time slots. Too many options can be overwhelming for participants.
         </p>
       </div>
 
