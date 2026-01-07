@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus, Pencil, Key } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
@@ -15,8 +15,12 @@ const MeetingInvite = () => {
   const [participantName, setParticipantName] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [editLinkCopied, setEditLinkCopied] = useState(false);
   const [socialImageUrl, setSocialImageUrl] = useState<string>("");
   const prevResponseCount = useRef<number | null>(null);
+
+  // Check if user has edit token (they're the creator)
+  const editToken = inviteId ? sessionStorage.getItem(`edit_token_${inviteId}`) : null;
 
   const { invite, isLoading, responses, getSlotParticipants, isNewResponse, hasNewResponses } = useMeetingInvite(inviteId);
   const submitResponse = useSubmitResponse(inviteId);
@@ -54,6 +58,16 @@ const MeetingInvite = () => {
 
   const handleSubmit = () => {
     submitResponse.mutate({ participantName, selectedSlots });
+  };
+
+  const copyEditLink = () => {
+    if (editToken && inviteId) {
+      const editUrl = `${window.location.origin}/edit/${inviteId}/${editToken}`;
+      navigator.clipboard.writeText(editUrl);
+      setEditLinkCopied(true);
+      toast.success("Secret edit link copied! Save this to edit your meeting later.");
+      setTimeout(() => setEditLinkCopied(false), 3000);
+    }
   };
 
   if (isLoading) {
@@ -108,8 +122,33 @@ const MeetingInvite = () => {
       
       <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Top bar with create button */}
-          <div className="flex justify-end mb-4 animate-fade-in">
+          {/* Top bar with buttons */}
+          <div className="flex justify-between items-center mb-4 animate-fade-in gap-2">
+            {editToken ? (
+              <div className="flex items-center gap-2 flex-wrap">
+                <Link to={`/edit/${inviteId}/${editToken}`}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
+                  >
+                    <Pencil className="h-4 w-4" />
+                    Edit Meeting
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copyEditLink}
+                  className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
+                >
+                  {editLinkCopied ? <Check className="h-4 w-4 text-accent" /> : <Key className="h-4 w-4" />}
+                  {editLinkCopied ? "Copied!" : "Copy Edit Link"}
+                </Button>
+              </div>
+            ) : (
+              <div />
+            )}
             <Link to="/create">
               <Button
                 variant="outline"
@@ -121,6 +160,15 @@ const MeetingInvite = () => {
               </Button>
             </Link>
           </div>
+
+          {/* Organizer notice */}
+          {editToken && (
+            <div className="glass rounded-xl p-3 mb-6 border border-accent/30 bg-accent/5 animate-fade-in">
+              <p className="text-sm text-center text-muted-foreground">
+                <span className="text-accent font-medium">You're the organizer.</span> Save your edit link to make changes later - it won't be shown again after you leave!
+              </p>
+            </div>
+          )}
 
           {/* Header */}
           <div className="text-center mb-10 animate-fade-in-up">
