@@ -7,7 +7,8 @@ export interface MeetingInvite {
   creator_timezone: string;
   created_at: string;
   expires_at: string | null;
-  edit_token: string;
+  edit_token?: string;
+  confirmed_slot: string | null;
 }
 
 export interface ParticipantResponse {

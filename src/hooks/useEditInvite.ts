@@ -89,6 +89,32 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
     }
   });
 
+  const confirmSlotMutation = useMutation({
+    mutationFn: async (slot: string | null) => {
+      if (!inviteId || !editToken) throw new Error("Missing invite ID or edit token");
+
+      const { error } = await supabase
+        .from('meeting_invites')
+        .update({ confirmed_slot: slot })
+        .eq('id', inviteId)
+        .eq('edit_token', editToken);
+
+      if (error) throw new Error("Failed to confirm time slot");
+    },
+    onSuccess: (_, slot) => {
+      if (slot) {
+        toast.success("Time slot confirmed!");
+      } else {
+        toast.success("Confirmation cleared");
+      }
+      queryClient.invalidateQueries({ queryKey: ['invite', inviteId] });
+      queryClient.invalidateQueries({ queryKey: ['invite-edit', inviteId, editToken] });
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    }
+  });
+
   return {
     invite: inviteQuery.data,
     isLoading: inviteQuery.isLoading,
@@ -97,5 +123,7 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
     isUpdating: updateMutation.isPending,
     deleteInvite: deleteMutation.mutate,
     isDeleting: deleteMutation.isPending,
+    confirmSlot: confirmSlotMutation.mutate,
+    isConfirmingSlot: confirmSlotMutation.isPending,
   };
 }

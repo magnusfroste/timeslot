@@ -5,6 +5,7 @@ import { Calendar, Clock, Copy, Check, ArrowLeft, Volume2, VolumeX, Globe, Plus,
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
+import { useEditInvite } from "@/hooks/useEditInvite";
 import { useSubmitResponse } from "@/hooks/useSubmitResponse";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { TimeSlotCard, ParticipantsList, ResponseForm } from "@/components/meeting";
@@ -23,6 +24,7 @@ const MeetingInvite = () => {
   const editToken = inviteId ? sessionStorage.getItem(`edit_token_${inviteId}`) : null;
 
   const { invite, isLoading, responses, getSlotParticipants, isNewResponse, hasNewResponses } = useMeetingInvite(inviteId);
+  const { confirmSlot } = useEditInvite(inviteId, editToken || undefined);
   const submitResponse = useSubmitResponse(inviteId);
   const { soundEnabled, toggleSound, playNotificationSound } = useNotificationSound();
 
@@ -47,6 +49,12 @@ const MeetingInvite = () => {
         ? prev.filter(s => s !== slot)
         : [...prev, slot]
     );
+  };
+
+  const handleConfirmSlot = (slot: string) => {
+    // Toggle: if already confirmed, clear it; otherwise confirm this slot
+    const newSlot = invite?.confirmed_slot === slot ? null : slot;
+    confirmSlot(newSlot);
   };
 
   const copyLink = () => {
@@ -249,6 +257,12 @@ const MeetingInvite = () => {
                   Showing times in your timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone})
                 </span>
               </div>
+              {editToken && (
+                <p className="text-xs text-muted-foreground/70 mb-3 flex items-center gap-1">
+                  <Check className="h-3 w-3 text-green-500" />
+                  Click a time slot to mark it as confirmed
+                </p>
+              )}
               <div className="space-y-3">
                 {invite.available_slots.map((slot, index) => (
                   <TimeSlotCard
@@ -258,6 +272,9 @@ const MeetingInvite = () => {
                     participants={getSlotParticipants(slot)}
                     onToggle={toggleSlot}
                     creatorTimezone={invite.creator_timezone}
+                    isConfirmed={invite.confirmed_slot === slot}
+                    isAdmin={!!editToken}
+                    onConfirm={handleConfirmSlot}
                   />
                 ))}
               </div>

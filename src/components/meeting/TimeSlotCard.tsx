@@ -10,6 +10,9 @@ interface TimeSlotCardProps {
   participants: ParticipantResponse[];
   onToggle: (slot: string) => void;
   creatorTimezone?: string;
+  isConfirmed?: boolean;
+  isAdmin?: boolean;
+  onConfirm?: (slot: string) => void;
 }
 
 function getShortTimezone(timezone: string): string {
@@ -26,7 +29,7 @@ function getShortTimezone(timezone: string): string {
   }
 }
 
-export function TimeSlotCard({ slot, isSelected, participants, onToggle, creatorTimezone }: TimeSlotCardProps) {
+export function TimeSlotCard({ slot, isSelected, participants, onToggle, creatorTimezone, isConfirmed, isAdmin, onConfirm }: TimeSlotCardProps) {
   const viewerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const isSameTimezone = creatorTimezone === viewerTimezone;
   
@@ -44,27 +47,55 @@ export function TimeSlotCard({ slot, isSelected, participants, onToggle, creator
     creatorDate = new Date(slot);
   }
 
+  const handleClick = () => {
+    if (isAdmin && onConfirm) {
+      // Admin click: toggle confirmation
+      onConfirm(slot);
+    } else {
+      // Regular participant click: toggle selection
+      onToggle(slot);
+    }
+  };
+
+  const getCardClasses = () => {
+    if (isConfirmed) {
+      return 'border-green-500 bg-green-500/10 shadow-[0_0_20px_rgba(34,197,94,0.2)]';
+    }
+    if (isSelected) {
+      return 'border-primary bg-primary/5 shadow-glow';
+    }
+    return 'border-border/50 bg-background/30 hover:border-border hover:bg-background/50';
+  };
+
   return (
     <div
-      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
-        isSelected 
-          ? 'border-primary bg-primary/5 shadow-glow'
-          : 'border-border/50 bg-background/30 hover:border-border hover:bg-background/50'
-      }`}
-      onClick={() => onToggle(slot)}
+      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${getCardClasses()} ${isAdmin ? 'hover:ring-2 hover:ring-green-500/30' : ''}`}
+      onClick={handleClick}
+      title={isAdmin ? (isConfirmed ? 'Click to unconfirm' : 'Click to confirm this time') : undefined}
     >
       <div className="flex justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          {isSelected && (
+          {isConfirmed ? (
+            <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+              <Check className="h-4 w-4 text-white" />
+            </div>
+          ) : isSelected ? (
             <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
               <Check className="h-4 w-4 text-primary-foreground" />
             </div>
-          )}
+          ) : null}
           <div>
-            <p className="font-semibold text-foreground">
-              {format(localDate, 'EEEE, MMMM d')}
-            </p>
-            <p className="text-sm text-foreground">
+            <div className="flex items-center gap-2">
+              <p className={`font-semibold ${isConfirmed ? 'text-green-600 dark:text-green-400' : 'text-foreground'}`}>
+                {format(localDate, 'EEEE, MMMM d')}
+              </p>
+              {isConfirmed && (
+                <Badge className="bg-green-500 text-white text-[10px] px-1.5 py-0">
+                  CONFIRMED
+                </Badge>
+              )}
+            </div>
+            <p className={`text-sm ${isConfirmed ? 'text-green-600 dark:text-green-400' : 'text-foreground'}`}>
               {format(localDate, 'h:mm a')}
               {!isSameTimezone && creatorTimezone && (
                 <span className="text-muted-foreground ml-1">
