@@ -12,6 +12,7 @@ import { useSubmitResponse } from "@/hooks/useSubmitResponse";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { TimeSlotCard, ParticipantsList, ResponseForm } from "@/components/meeting";
 import ShareButtons from "@/components/meeting/ShareButtons";
+import Footer from "@/components/Footer";
 
 const MeetingInvite = () => {
   const { inviteId } = useParams();
@@ -435,6 +436,8 @@ const MeetingInvite = () => {
           <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <ParticipantsList responses={responses} isNewResponse={isNewResponse} />
           </div>
+
+          <Footer />
         </div>
       </div>
     </div>
