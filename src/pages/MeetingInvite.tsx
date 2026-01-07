@@ -126,11 +126,66 @@ const MeetingInvite = () => {
     return {
       date: format(utcDate, 'EEEE, MMMM d'),
       time: format(utcDate, 'h:mm a'),
-      timezone: viewerTimezone
+      timezone: viewerTimezone,
+      utcDate
     };
   };
 
   const confirmedDisplay = getConfirmedSlotDisplay();
+
+  // Generate Google Calendar URL
+  const getGoogleCalendarUrl = () => {
+    if (!confirmedDisplay || !invite) return '';
+    
+    const startDate = confirmedDisplay.utcDate;
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+    
+    const formatForGoogle = (date: Date) => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: invite.title,
+      dates: `${formatForGoogle(startDate)}/${formatForGoogle(endDate)}`,
+      details: invite.description || `Meeting organized by ${invite.inviter_name}`,
+    });
+    
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  };
+
+  // Generate and download iCal file
+  const downloadICalFile = () => {
+    if (!confirmedDisplay || !invite) return;
+    
+    const startDate = confirmedDisplay.utcDate;
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+    
+    const formatForICal = (date: Date) => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Meeting Scheduler//EN',
+      'BEGIN:VEVENT',
+      `DTSTART:${formatForICal(startDate)}`,
+      `DTEND:${formatForICal(endDate)}`,
+      `SUMMARY:${invite.title}`,
+      `DESCRIPTION:${invite.description || `Meeting organized by ${invite.inviter_name}`}`,
+      `ORGANIZER:${invite.inviter_name}`,
+      `UID:${invite.id}@meetingscheduler`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${invite.title.replace(/[^a-z0-9]/gi, '-')}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
@@ -151,13 +206,33 @@ const MeetingInvite = () => {
       {confirmedDisplay && (
         <div className="relative bg-gradient-to-r from-green-500 to-emerald-500 text-white">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-center gap-3 text-center">
-              <CalendarCheck className="h-6 w-6 flex-shrink-0" />
-              <div>
-                <p className="text-sm font-medium opacity-90">Meeting Confirmed</p>
-                <p className="text-lg md:text-xl font-bold">
-                  {confirmedDisplay.date} at {confirmedDisplay.time}
-                </p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+              <div className="flex items-center gap-3">
+                <CalendarCheck className="h-6 w-6 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium opacity-90">Meeting Confirmed</p>
+                  <p className="text-lg md:text-xl font-bold">
+                    {confirmedDisplay.date} at {confirmedDisplay.time}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={getGoogleCalendarUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Google
+                </a>
+                <button
+                  onClick={downloadICalFile}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                >
+                  <Calendar className="h-4 w-4" />
+                  iCal
+                </button>
               </div>
             </div>
           </div>
