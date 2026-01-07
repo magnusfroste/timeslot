@@ -19,7 +19,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
     <div>
       <div className="flex items-center gap-2 mb-4">
         <Clock className="h-4 w-4 text-primary" />
-        <Label className="text-base font-semibold text-foreground">Föreslagna tider</Label>
+        <Label className="text-base font-semibold text-foreground">Proposed Times</Label>
       </div>
 
       <div className="space-y-3">
@@ -46,7 +46,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
                   size="icon"
                   onClick={() => onDuplicate(index)}
                   className="h-10 w-10 shrink-0 hover:bg-primary/10 hover:text-primary hover:border-primary/50 rounded-xl"
-                  title="Duplicera"
+                  title="Duplicate"
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -58,7 +58,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
                   size="icon"
                   onClick={() => onRemove(index)}
                   className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
-                  title="Ta bort"
+                  title="Remove"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -75,7 +75,7 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
                 className="mt-2 text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-xl"
               >
                 <Plus className="h-4 w-4 mr-1" />
-                Lägg till tid
+                Add Time
               </Button>
             )}
           </div>
