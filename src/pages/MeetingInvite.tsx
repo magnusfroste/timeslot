@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Copy, Check, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, Copy, Check, ArrowLeft, Radio } from "lucide-react";
 import { toast } from "sonner";
 import SocialMeta from "@/components/SocialMeta";
 import { useMeetingInvite } from "@/hooks/useMeetingInvite";
@@ -16,7 +16,7 @@ const MeetingInvite = () => {
   const [copied, setCopied] = useState(false);
   const [socialImageUrl, setSocialImageUrl] = useState<string>("");
 
-  const { invite, isLoading, responses, getSlotParticipants, isNewResponse } = useMeetingInvite(inviteId);
+  const { invite, isLoading, responses, getSlotParticipants, isNewResponse, hasNewResponses } = useMeetingInvite(inviteId);
   const submitResponse = useSubmitResponse(inviteId);
 
   useEffect(() => {
@@ -141,9 +141,18 @@ const MeetingInvite = () => {
           <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
             {/* Left side - Time slots */}
             <div className="glass-strong rounded-3xl p-6 shadow-glass animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Clock className="h-5 w-5 text-primary" />
-                <h2 className="text-xl font-semibold text-foreground">Available Time Slots</h2>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold text-foreground">Available Time Slots</h2>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <span className={`relative flex h-2 w-2 ${hasNewResponses ? 'animate-pulse' : ''}`}>
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 animate-ping" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                  </span>
+                  Live
+                </div>
               </div>
               <p className="text-sm text-muted-foreground mb-5">
                 Click on the times you're available. The number shows how many have responded for each slot.
