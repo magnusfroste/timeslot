@@ -146,7 +146,7 @@ const MeetingInvite = () => {
                 <h2 className="text-xl font-semibold text-foreground">Available Time Slots</h2>
               </div>
               <p className="text-sm text-muted-foreground mb-5">
-                Click on the times you're available
+                Click on the times you're available. The number shows how many have responded for each slot.
               </p>
               <div className="space-y-3">
                 {invite.available_slots.map((slot, index) => (
