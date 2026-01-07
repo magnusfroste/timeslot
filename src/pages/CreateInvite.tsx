@@ -72,6 +72,8 @@ const CreateInvite = () => {
       timeSlots,
     }, {
       onSuccess: (invite) => {
+        // Store edit token in session storage so we can show edit link on invite page
+        sessionStorage.setItem(`edit_token_${invite.id}`, invite.edit_token);
         navigate(`/invite/${invite.id}`);
       }
     });

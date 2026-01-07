@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           creator_timezone: string
           description: string | null
+          edit_token: string
           expires_at: string | null
           id: string
           inviter_name: string
@@ -30,6 +31,7 @@ export type Database = {
           created_at?: string
           creator_timezone?: string
           description?: string | null
+          edit_token?: string
           expires_at?: string | null
           id?: string
           inviter_name: string
@@ -40,6 +42,7 @@ export type Database = {
           created_at?: string
           creator_timezone?: string
           description?: string | null
+          edit_token?: string
           expires_at?: string | null
           id?: string
           inviter_name?: string
