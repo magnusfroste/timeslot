@@ -35,22 +35,22 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     };
 
     // Update description with clear call to action - emoji helps stand out in messaging apps
-    const enhancedDescription = `📅 MÖTESINBJUDAN: ${description} — Klicka för att välja tider som passar dig!`;
+    const enhancedDescription = `📅 MEETING INVITE: ${description} — Tap to pick the times that work for you!`;
     updateMetaTag('description', enhancedDescription, true);
     
     // Update Open Graph tags - these are what WhatsApp, iMessage, etc. use
-    updateMetaTag('og:title', `📅 Mötesinbjudan: ${title}`);
+    updateMetaTag('og:title', `📅 Meeting Invite: ${title}`);
     updateMetaTag('og:description', enhancedDescription);
     updateMetaTag('og:type', 'website');
     updateMetaTag('og:image', image || defaultImage);
     updateMetaTag('og:image:width', '1200');
     updateMetaTag('og:image:height', '630');
-    updateMetaTag('og:site_name', 'TimeSlot - Mötesbokningar');
+    updateMetaTag('og:site_name', 'Timeslot – Meeting Scheduling');
     if (url) updateMetaTag('og:url', url);
 
     // Update Twitter tags
     updateMetaTag('twitter:card', 'summary_large_image', true);
-    updateMetaTag('twitter:title', `📅 Mötesinbjudan: ${title}`, true);
+    updateMetaTag('twitter:title', `📅 Meeting Invite: ${title}`, true);
     updateMetaTag('twitter:description', enhancedDescription, true);
     updateMetaTag('twitter:image', image || defaultImage, true);
 

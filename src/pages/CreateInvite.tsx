@@ -82,6 +82,11 @@ const CreateInvite = () => {
 
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
+      <PageMeta
+        title="Create Meeting Invite – Timeslot"
+        description="Propose a few meeting times, share one link, and let everyone pick what works. Free, no sign-up required."
+        path="/create"
+      />
       {/* Floating decorative elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />

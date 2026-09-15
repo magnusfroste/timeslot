@@ -152,6 +152,12 @@ const EditInvite = () => {
 
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
+      <PageMeta
+        title="Edit Meeting – Timeslot"
+        description="Update your meeting details, change proposed times, or delete the invite using your private edit link."
+        path="/edit"
+        noindex
+      />
       {/* Floating decorative elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
