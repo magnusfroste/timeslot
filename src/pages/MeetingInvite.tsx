@@ -334,28 +334,28 @@ const MeetingInvite = () => {
               <p className="text-muted-foreground max-w-2xl mx-auto mt-2">{invite.description}</p>
             )}
             
-            {/* Share buttons */}
-            <div className="mt-6 space-y-3">
-              <div className="flex justify-center">
-                <Button
-                  variant="outline"
-                  onClick={copyLink}
-                  className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
-                >
-                  {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-                  {copied ? "Copied!" : "Copy Link"}
-                </Button>
+            {/* Share panel */}
+            <div className="mt-6 mx-auto w-full max-w-xl glass rounded-2xl p-4 space-y-3">
+              <Button
+                onClick={copyLink}
+                className="w-full rounded-xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? "Link copied!" : "Copy invite link"}
+              </Button>
+
+              <div className="flex items-center gap-3">
+                <span className="h-px flex-1 bg-border/40" />
+                <span className="text-xs text-muted-foreground">or share via</span>
+                <span className="h-px flex-1 bg-border/40" />
               </div>
-              
-              <div className="border-t border-border/30 pt-3">
-                <p className="text-xs text-muted-foreground mb-2 text-center">Share via</p>
-                <ShareButtons 
-                  inviteId={inviteId!}
-                  title={invite.title}
-                  organizerName={invite.inviter_name}
-                  slotsCount={invite.available_slots.length}
-                />
-              </div>
+
+              <ShareButtons
+                inviteId={inviteId!}
+                title={invite.title}
+                organizerName={invite.inviter_name}
+                slotsCount={invite.available_slots.length}
+              />
             </div>
           </div>
 
