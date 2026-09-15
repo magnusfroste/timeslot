@@ -56,16 +56,16 @@ serve(async (req) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📅 Mötesinbjudan: ${escapeHtml(invite.title)}</title>
+  <title>📅 Meeting Invite: ${escapeHtml(invite.title)}</title>
   
   <!-- Primary Meta Tags -->
-  <meta name="title" content="📅 Mötesinbjudan: ${escapeHtml(invite.title)}">
+  <meta name="title" content="📅 Meeting Invite: ${escapeHtml(invite.title)}">
   <meta name="description" content="${escapeHtml(invite.inviter_name)} vill boka ett möte med dig! ${invite.available_slots?.length || 0} föreslagna tider. Klicka för att svara.">
   
   <!-- Open Graph / Facebook / WhatsApp / iMessage -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="${inviteUrl}">
-  <meta property="og:title" content="📅 Mötesinbjudan: ${escapeHtml(invite.title)}">
+  <meta property="og:title" content="📅 Meeting Invite: ${escapeHtml(invite.title)}">
   <meta property="og:description" content="${escapeHtml(invite.inviter_name)} vill boka ett möte med dig! ${invite.available_slots?.length || 0} föreslagna tider. Klicka för att svara.">
   <meta property="og:image" content="${imageUrl}">
   <meta property="og:image:width" content="1200">
@@ -75,7 +75,7 @@ serve(async (req) => {
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="${inviteUrl}">
-  <meta name="twitter:title" content="📅 Mötesinbjudan: ${escapeHtml(invite.title)}">
+  <meta name="twitter:title" content="📅 Meeting Invite: ${escapeHtml(invite.title)}">
   <meta name="twitter:description" content="${escapeHtml(invite.inviter_name)} vill boka ett möte med dig! ${invite.available_slots?.length || 0} föreslagna tider. Klicka för att svara.">
   <meta name="twitter:image" content="${imageUrl}">
   
@@ -115,7 +115,7 @@ serve(async (req) => {
 </head>
 <body>
   <div class="container">
-    <h1>📅 Mötesinbjudan</h1>
+    <h1>📅 Meeting Invite</h1>
     <h2>${escapeHtml(invite.title)}</h2>
     <p>Från: ${escapeHtml(invite.inviter_name)}</p>
     <p>${invite.available_slots?.length || 0} föreslagna tider</p>

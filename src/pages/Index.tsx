@@ -43,6 +43,9 @@ const Index = () => {
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
             <span className="gradient-text">Timeslot</span>
+            <span className="block mt-4 text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground">
+              Simple Meeting Scheduling
+            </span>
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
