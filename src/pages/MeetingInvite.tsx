@@ -400,7 +400,7 @@ const MeetingInvite = () => {
               {editToken && (
                 <p className="text-xs text-muted-foreground/70 mb-3 flex items-center gap-1">
                   <Check className="h-3 w-3 text-green-500" />
-                  Click a time slot to mark it as confirmed
+                  Tap a time slot, or use the Confirm button, to mark it as confirmed
                 </p>
               )}
               <div className="space-y-3">
