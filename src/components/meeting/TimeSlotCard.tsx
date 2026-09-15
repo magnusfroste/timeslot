@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Users, Check } from "lucide-react";
 import { format } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
@@ -73,8 +74,8 @@ export function TimeSlotCard({ slot, isSelected, participants, onToggle, creator
       onClick={handleClick}
       title={isAdmin ? (isConfirmed ? 'Click to unconfirm' : 'Click to confirm this time') : undefined}
     >
-      <div className="flex justify-between items-center gap-4">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 min-w-0">
           {isConfirmed ? (
             <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
               <Check className="h-4 w-4 text-white" />
@@ -105,7 +106,7 @@ export function TimeSlotCard({ slot, isSelected, participants, onToggle, creator
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Badge variant="secondary" className="flex items-center gap-1 rounded-lg bg-secondary/50">
             <Users className="h-3 w-3" />
             {participants.length}
@@ -130,6 +131,25 @@ export function TimeSlotCard({ slot, isSelected, participants, onToggle, creator
           )}
         </div>
       </div>
+
+      {isAdmin && (
+        <Button
+          type="button"
+          variant={isConfirmed ? "outline" : "default"}
+          onClick={(e) => {
+            e.stopPropagation();
+            onConfirm?.(slot);
+          }}
+          className={`mt-3 w-full min-h-11 rounded-xl sm:w-auto ${
+            isConfirmed
+              ? "border-green-500 text-green-600 dark:text-green-400 hover:bg-green-500/10"
+              : "bg-green-600 text-white hover:bg-green-700"
+          }`}
+        >
+          <Check className="h-4 w-4" />
+          {isConfirmed ? "Confirmed – tap to undo" : "Confirm this time"}
+        </Button>
+      )}
     </div>
   );
 }
