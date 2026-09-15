@@ -8,7 +8,7 @@ const Index = () => {
     <div className="min-h-screen aurora-bg noise overflow-hidden">
       <PageMeta
         title="Timeslot – The Easiest Way to Schedule Meetings with Your Team"
-        description="Timeslot is the easiest way to find a time that works for your incredible team. Create time slots, share a link, and see availability in real-time. No sign-up required."
+        description="Timeslot is the easiest way to find a time that works for your incredible team — works outside your walled garden. Create time slots, share a link, and see availability in real-time. No sign-up required."
         path="/"
       />
       {/* Floating decorative elements */}
@@ -50,7 +50,8 @@ const Index = () => {
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
             The <span className="text-foreground font-semibold">easiest way</span> to find a time that works for your
-            incredible team. Create time slots, share the link, and see availability in real-time.
+            incredible team — and yes, it works <span className="text-foreground font-semibold">outside your walled garden</span>.
+            Create time slots, share the link, and see availability in real-time.
           </p>
           <p className="text-sm text-muted-foreground/70 mb-10">No sign-up required – free forever</p>
 
