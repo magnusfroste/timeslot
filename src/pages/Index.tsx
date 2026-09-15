@@ -5,7 +5,7 @@ import PageMeta from "@/components/PageMeta";
 
 const Index = () => {
   return (
-    <div className="min-h-screen aurora-bg noise overflow-hidden">
+    <div className="min-h-screen aurora-bg noise overflow-x-hidden">
       <PageMeta
         title="Timeslot – The Easiest Way to Schedule Meetings with Your Team"
         description="Timeslot is the easiest way to find a time that works for your incredible team — works outside your walled garden. Create time slots, share a link, and see availability in real-time. No sign-up required."

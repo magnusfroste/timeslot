@@ -52,12 +52,12 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
   };
 
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:justify-center">
       <Button
         variant="outline"
         size="sm"
         onClick={handleWhatsAppShare}
-        className="glass border-border/50 hover:bg-green-500/20 hover:border-green-500/50 rounded-xl gap-2 text-sm"
+        className="glass border-border/50 hover:bg-green-500/20 hover:border-green-500/50 w-full sm:w-auto justify-center rounded-xl gap-2 text-sm"
       >
         <MessageCircle className="h-4 w-4 text-green-500" />
         WhatsApp
@@ -67,7 +67,7 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
         variant="outline"
         size="sm"
         onClick={handleSmsShare}
-        className="glass border-border/50 hover:bg-blue-500/20 hover:border-blue-500/50 rounded-xl gap-2 text-sm"
+        className="glass border-border/50 hover:bg-blue-500/20 hover:border-blue-500/50 w-full sm:w-auto justify-center rounded-xl gap-2 text-sm"
       >
         <MessageCircle className="h-4 w-4 text-blue-500" />
         SMS
@@ -77,7 +77,7 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
         variant="outline"
         size="sm"
         onClick={handleEmailShare}
-        className="glass border-border/50 hover:bg-orange-500/20 hover:border-orange-500/50 rounded-xl gap-2 text-sm"
+        className="glass border-border/50 hover:bg-orange-500/20 hover:border-orange-500/50 w-full sm:w-auto justify-center rounded-xl gap-2 text-sm"
       >
         <Mail className="h-4 w-4 text-orange-500" />
         Email
@@ -88,7 +88,7 @@ const ShareButtons = ({ inviteId, title, organizerName, slotsCount }: ShareButto
           variant="outline"
           size="sm"
           onClick={handleNativeShare}
-          className="glass border-border/50 hover:bg-primary/20 hover:border-primary/50 rounded-xl gap-2 text-sm"
+          className="glass border-border/50 hover:bg-primary/20 hover:border-primary/50 w-full sm:w-auto justify-center rounded-xl gap-2 text-sm"
         >
           <Share2 className="h-4 w-4 text-primary" />
           Share
