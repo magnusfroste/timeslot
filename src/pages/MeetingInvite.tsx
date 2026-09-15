@@ -226,7 +226,7 @@ const MeetingInvite = () => {
       {confirmedDisplay && (
         <div className="relative bg-gradient-to-r from-green-500 to-emerald-500 text-white">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 text-center">
               <div className="flex items-center gap-3">
                 <CalendarCheck className="h-6 w-6 flex-shrink-0" />
                 <div>
@@ -236,12 +236,12 @@ const MeetingInvite = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
                 <a
                   href={getGoogleCalendarUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                  className="inline-flex flex-1 md:flex-none items-center justify-center gap-1.5 px-3 min-h-11 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                 >
                   <Calendar className="h-4 w-4" />
                   Google
@@ -250,14 +250,14 @@ const MeetingInvite = () => {
                   href={getOutlookCalendarUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                  className="inline-flex flex-1 md:flex-none items-center justify-center gap-1.5 px-3 min-h-11 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                 >
                   <Calendar className="h-4 w-4" />
                   Outlook
                 </a>
                 <button
                   onClick={downloadICalFile}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                  className="inline-flex flex-1 md:flex-none items-center justify-center gap-1.5 px-3 min-h-11 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                 >
                   <Calendar className="h-4 w-4" />
                   iCal
@@ -271,9 +271,9 @@ const MeetingInvite = () => {
       <div className="relative container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
           {/* Top bar with buttons */}
-          <div className="flex justify-between items-center mb-4 animate-fade-in gap-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 animate-fade-in gap-2">
             {editToken ? (
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:flex-wrap [&_a]:w-full sm:[&_a]:w-auto [&_button]:w-full sm:[&_button]:w-auto">
                 <Link to={`/edit/${inviteId}/${editToken}`}>
                   <Button
                     variant="outline"
@@ -297,11 +297,11 @@ const MeetingInvite = () => {
             ) : (
               <div />
             )}
-            <Link to="/create">
+            <Link to="/create" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
-                className="glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
+                className="w-full sm:w-auto glass border-border/50 hover:bg-secondary/50 rounded-xl gap-2"
               >
                 <Plus className="h-4 w-4" />
                 Create New Meeting
@@ -400,7 +400,7 @@ const MeetingInvite = () => {
               {editToken && (
                 <p className="text-xs text-muted-foreground/70 mb-3 flex items-center gap-1">
                   <Check className="h-3 w-3 text-green-500" />
-                  Click a time slot to mark it as confirmed
+                  Tap a time slot, or use the Confirm button, to mark it as confirmed
                 </p>
               )}
               <div className="space-y-3">
