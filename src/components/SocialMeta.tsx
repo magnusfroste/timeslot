@@ -57,12 +57,12 @@ const SocialMeta = ({ title, description, image, url }: SocialMetaProps) => {
     return () => {
       // Cleanup function - restore default values when component unmounts
       document.title = 'Timeslot – The Easiest Way to Schedule Meetings with Your Team';
-      updateMetaTag('description', 'The easiest way to find a time that works for your incredible team. Create time slots, share a link, and see availability in real-time. No sign-up required.', true);
+      updateMetaTag('description', 'The easiest way to find a time that works for your incredible team — works outside your walled garden. Create time slots, share a link, and see availability in real-time. No sign-up required.', true);
       updateMetaTag('og:title', 'Timeslot – The Easiest Way to Schedule Meetings');
-      updateMetaTag('og:description', 'The easiest way to find a time that works for your incredible team. Create time slots, share a link, and see availability in real-time. No sign-up required.');
+      updateMetaTag('og:description', 'The easiest way to find a time that works for your incredible team — works outside your walled garden. Create time slots, share a link, and see availability in real-time. No sign-up required.');
       updateMetaTag('og:image', 'https://storage.googleapis.com/gpt-engineer-file-uploads/Otwc5k988dRBXnycfCqkhVYDdj42/social-images/social-1765287643321-Screenshot 2025-12-09 at 14.40.25.png');
       updateMetaTag('twitter:title', 'Timeslot – The Easiest Way to Schedule Meetings', true);
-      updateMetaTag('twitter:description', 'The easiest way to find a time that works for your incredible team. Create time slots, share a link, and see availability in real-time. No sign-up required.', true);
+      updateMetaTag('twitter:description', 'The easiest way to find a time that works for your incredible team — works outside your walled garden. Create time slots, share a link, and see availability in real-time. No sign-up required.', true);
       updateMetaTag('twitter:image', 'https://storage.googleapis.com/gpt-engineer-file-uploads/Otwc5k988dRBXnycfCqkhVYDdj42/social-images/social-1765287643321-Screenshot 2025-12-09 at 14.40.25.png', true);
     };
   }, [title, description, image, url]);
