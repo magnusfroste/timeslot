@@ -10,6 +10,7 @@ import { useCreateInvite } from "@/hooks/useCreateInvite";
 import { TimeSlotForm } from "@/components/meeting";
 import { createInviteSchema, type CreateInviteFormData, type TimeSlot } from "@/lib/validations/invite";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import {
   Form,
   FormControl,
