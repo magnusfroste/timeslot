@@ -59,44 +59,46 @@ export function TimeSlotForm({ timeSlots, onAdd, onRemove, onUpdate, onDuplicate
           return (
             <div key={index}>
               <div className="bg-background/30 p-3 rounded-xl border border-border/30 space-y-3">
-                <div className="flex gap-3 items-center">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Input
                     type="date"
                     value={slot.date}
                     onChange={(e) => onUpdate(index, 'date', e.target.value)}
-                    className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+                    className="w-full bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
                     min={todayValue}
                   />
                   <Input
                     type="time"
                     value={slot.time}
                     onChange={(e) => onUpdate(index, 'time', e.target.value)}
-                    className="flex-1 bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
+                    className="w-full bg-background/50 border-border/50 focus:border-primary/50 rounded-xl"
                   />
-                  {onDuplicate && (slot.date || slot.time) && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => onDuplicate(index)}
-                      className="h-10 w-10 shrink-0 hover:bg-primary/10 hover:text-primary hover:border-primary/50 rounded-xl"
-                      title="Duplicate"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  )}
-                  {timeSlots.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => onRemove(index)}
-                      className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
-                      title="Remove"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
+                  <div className="flex gap-2 self-start sm:self-auto">
+                    {onDuplicate && (slot.date || slot.time) && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => onDuplicate(index)}
+                        className="h-10 w-10 shrink-0 hover:bg-primary/10 hover:text-primary hover:border-primary/50 rounded-xl"
+                        title="Duplicate"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    )}
+                    {timeSlots.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => onRemove(index)}
+                        className="h-10 w-10 shrink-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 rounded-xl"
+                        title="Remove"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5">
