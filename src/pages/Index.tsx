@@ -1,10 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, Zap, ArrowRight, CheckCircle, Github, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import PageMeta from "@/components/PageMeta";
 
 const Index = () => {
   return (
     <div className="min-h-screen aurora-bg noise overflow-hidden">
+      <PageMeta
+        title="Timeslot – The Easiest Way to Schedule Meetings with Your Team"
+        description="Timeslot is the easiest way to find a time that works for your incredible team. Create time slots, share a link, and see availability in real-time. No sign-up required."
+        path="/"
+      />
       {/* Floating decorative elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
@@ -37,6 +43,9 @@ const Index = () => {
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
             <span className="gradient-text">Timeslot</span>
+            <span className="block mt-4 text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground">
+              Simple Meeting Scheduling
+            </span>
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
