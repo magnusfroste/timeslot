@@ -14,7 +14,10 @@ export function useNotificationSound() {
     if (!soundEnabled) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextCtor =
+        window.AudioContext ||
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      const audioContext = new AudioContextCtor();
       
       // Create a pleasant chime sound
       const oscillator = audioContext.createOscillator();
