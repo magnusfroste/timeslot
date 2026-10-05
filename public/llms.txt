@@ -1,0 +1,12 @@
+# Timeslot
+
+> Timeslot is a free, no-sign-up meeting scheduler: create time slots, share a link and see your team's availability in real time.
+
+Timeslot helps teams and groups find a meeting time that works for everyone, including people outside your own organisation's calendar system. The organiser proposes time slots, shares one link, and participants mark their availability without creating an account. Responses update live. It is a lightweight, open-source alternative to Doodle-style polls.
+
+## Key links
+
+- [Home](https://www.timeslot.fit/): what Timeslot is and how it works
+- [Create a meeting poll](https://www.timeslot.fit/create): propose time slots and get a shareable link
+- [Sitemap](https://www.timeslot.fit/sitemap.xml)
+- [Source code](https://github.com/magnusfroste/timeslot)
