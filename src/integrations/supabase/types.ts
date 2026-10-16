@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
@@ -187,18 +187,35 @@ export type Database = {
     }
     Functions: {
       confirm_meeting_slot: {
-        Args: { p_invite_id: string; p_slot: string | null; p_token: string }
+        Args: { p_invite_id: string; p_slot: string; p_token: string }
         Returns: boolean
       }
       create_meeting_invite: {
         Args: {
           p_available_slots: string[]
           p_creator_timezone: string
-          p_description: string | null
+          p_description: string
           p_inviter_name: string
           p_title: string
         }
-        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+        Returns: {
+          available_slots: string[]
+          confirmed_slot: string | null
+          created_at: string
+          creator_timezone: string
+          description: string | null
+          edit_token: string
+          expires_at: string | null
+          id: string
+          inviter_name: string
+          title: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "meeting_invites"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       delete_meeting_invite: {
         Args: { p_invite_id: string; p_token: string }
@@ -206,7 +223,24 @@ export type Database = {
       }
       get_meeting_invite_for_edit: {
         Args: { p_invite_id: string; p_token: string }
-        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+        Returns: {
+          available_slots: string[]
+          confirmed_slot: string | null
+          created_at: string
+          creator_timezone: string
+          description: string | null
+          edit_token: string
+          expires_at: string | null
+          id: string
+          inviter_name: string
+          title: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "meeting_invites"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       submit_participant_response: {
         Args: {
@@ -215,18 +249,50 @@ export type Database = {
           p_participant_name: string
           p_selected_slots: string[]
         }
-        Returns: Database["public"]["Tables"]["participant_responses"]["Row"][]
+        Returns: {
+          created_at: string
+          id: string
+          invite_id: string
+          participant_initials: string
+          participant_name: string
+          response_token: string
+          selected_slots: string[]
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "participant_responses"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       update_meeting_invite: {
         Args: {
           p_available_slots: string[]
-          p_description: string | null
+          p_description: string
           p_invite_id: string
           p_inviter_name: string
           p_title: string
           p_token: string
         }
-        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+        Returns: {
+          available_slots: string[]
+          confirmed_slot: string | null
+          created_at: string
+          creator_timezone: string
+          description: string | null
+          edit_token: string
+          expires_at: string | null
+          id: string
+          inviter_name: string
+          title: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "meeting_invites"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       update_participant_response: {
         Args: {
@@ -235,7 +301,22 @@ export type Database = {
           p_selected_slots: string[]
           p_token: string
         }
-        Returns: Database["public"]["Tables"]["participant_responses"]["Row"][]
+        Returns: {
+          created_at: string
+          id: string
+          invite_id: string
+          participant_initials: string
+          participant_name: string
+          response_token: string
+          selected_slots: string[]
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "participant_responses"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       verify_edit_token: {
         Args: { invite_id: string; token: string }
