@@ -186,6 +186,57 @@ export type Database = {
       }
     }
     Functions: {
+      confirm_meeting_slot: {
+        Args: { p_invite_id: string; p_slot: string | null; p_token: string }
+        Returns: boolean
+      }
+      create_meeting_invite: {
+        Args: {
+          p_available_slots: string[]
+          p_creator_timezone: string
+          p_description: string | null
+          p_inviter_name: string
+          p_title: string
+        }
+        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+      }
+      delete_meeting_invite: {
+        Args: { p_invite_id: string; p_token: string }
+        Returns: boolean
+      }
+      get_meeting_invite_for_edit: {
+        Args: { p_invite_id: string; p_token: string }
+        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+      }
+      submit_participant_response: {
+        Args: {
+          p_invite_id: string
+          p_participant_initials: string
+          p_participant_name: string
+          p_selected_slots: string[]
+        }
+        Returns: Database["public"]["Tables"]["participant_responses"]["Row"][]
+      }
+      update_meeting_invite: {
+        Args: {
+          p_available_slots: string[]
+          p_description: string | null
+          p_invite_id: string
+          p_inviter_name: string
+          p_title: string
+          p_token: string
+        }
+        Returns: Database["public"]["Tables"]["meeting_invites"]["Row"][]
+      }
+      update_participant_response: {
+        Args: {
+          p_participant_initials: string
+          p_response_id: string
+          p_selected_slots: string[]
+          p_token: string
+        }
+        Returns: Database["public"]["Tables"]["participant_responses"]["Row"][]
+      }
       verify_edit_token: {
         Args: { invite_id: string; token: string }
         Returns: boolean

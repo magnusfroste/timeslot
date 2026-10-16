@@ -21,16 +21,15 @@ export function useCreateInvite() {
       const validSlots = formatTimeSlots(validated.timeSlots);
       const creatorTimezone = getLocalTimezone();
 
+      // Skapas via RPC: edit_token returneras bara till den som skapar inbjudan
       const { data, error } = await supabase
-        .from('meeting_invites')
-        .insert({
-          title: validated.title,
-          description: validated.description,
-          inviter_name: validated.inviterName,
-          available_slots: validSlots,
-          creator_timezone: creatorTimezone
+        .rpc('create_meeting_invite', {
+          p_title: validated.title,
+          p_description: validated.description ?? null,
+          p_inviter_name: validated.inviterName,
+          p_available_slots: validSlots,
+          p_creator_timezone: creatorTimezone
         })
-        .select()
         .single();
 
       if (error) {

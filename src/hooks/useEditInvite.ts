@@ -13,11 +13,9 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
     queryFn: async () => {
       if (!inviteId || !editToken) return null;
       
+      // Token kontrolleras på serversidan
       const { data, error } = await supabase
-        .from('meeting_invites')
-        .select('*')
-        .eq('id', inviteId)
-        .eq('edit_token', editToken)
+        .rpc('get_meeting_invite_for_edit', { p_invite_id: inviteId, p_token: editToken })
         .maybeSingle();
       
       if (error) throw error;
@@ -42,16 +40,14 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
       if (!inviteId || !editToken) throw new Error("Missing invite ID or edit token");
 
       const { data, error } = await supabase
-        .from('meeting_invites')
-        .update({
-          title: params.title,
-          description: params.description || null,
-          inviter_name: params.inviterName,
-          available_slots: params.availableSlots,
+        .rpc('update_meeting_invite', {
+          p_invite_id: inviteId,
+          p_token: editToken,
+          p_title: params.title,
+          p_description: params.description || null,
+          p_inviter_name: params.inviterName,
+          p_available_slots: params.availableSlots,
         })
-        .eq('id', inviteId)
-        .eq('edit_token', editToken)
-        .select()
         .single();
 
       if (error) throw new Error("Failed to update invite");
@@ -71,13 +67,10 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
     mutationFn: async () => {
       if (!inviteId || !editToken) throw new Error("Missing invite ID or edit token");
 
-      const { error } = await supabase
-        .from('meeting_invites')
-        .delete()
-        .eq('id', inviteId)
-        .eq('edit_token', editToken);
+      const { data: deleted, error } = await supabase
+        .rpc('delete_meeting_invite', { p_invite_id: inviteId, p_token: editToken });
 
-      if (error) throw new Error("Failed to delete invite");
+      if (error || !deleted) throw new Error("Failed to delete invite");
     },
     onSuccess: () => {
       toast.success("Meeting invite deleted!");
@@ -93,13 +86,10 @@ export function useEditInvite(inviteId: string | undefined, editToken: string | 
     mutationFn: async (slot: string | null) => {
       if (!inviteId || !editToken) throw new Error("Missing invite ID or edit token");
 
-      const { error } = await supabase
-        .from('meeting_invites')
-        .update({ confirmed_slot: slot })
-        .eq('id', inviteId)
-        .eq('edit_token', editToken);
+      const { data: confirmed, error } = await supabase
+        .rpc('confirm_meeting_slot', { p_invite_id: inviteId, p_token: editToken, p_slot: slot });
 
-      if (error) throw new Error("Failed to confirm time slot");
+      if (error || !confirmed) throw new Error("Failed to confirm time slot");
     },
     onSuccess: (_, slot) => {
       if (slot) {

@@ -69,14 +69,12 @@ export function useSubmitResponse(inviteId: string | undefined) {
           
           if (isValid) {
             const { data, error } = await supabase
-              .from('participant_responses')
-              .update({
-                selected_slots: selectedSlots,
-                participant_initials: initials
+              .rpc('update_participant_response', {
+                p_response_id: existingResponse.id,
+                p_token: storedToken,
+                p_participant_initials: initials,
+                p_selected_slots: selectedSlots
               })
-              .eq('id', existingResponse.id)
-              .eq('response_token', storedToken)
-              .select()
               .single();
             
             if (error) throw error;
@@ -98,15 +96,14 @@ export function useSubmitResponse(inviteId: string | undefined) {
       }
 
       // Insert new response
+      // Skapas via RPC: response_token returneras bara till den som svarar
       const { data, error } = await supabase
-        .from('participant_responses')
-        .insert({
-          invite_id: inviteId,
-          participant_name: trimmedName,
-          participant_initials: initials,
-          selected_slots: selectedSlots
+        .rpc('submit_participant_response', {
+          p_invite_id: inviteId,
+          p_participant_name: trimmedName,
+          p_participant_initials: initials,
+          p_selected_slots: selectedSlots
         })
-        .select()
         .single();
 
       if (error) throw error;

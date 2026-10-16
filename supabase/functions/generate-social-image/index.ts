@@ -31,7 +31,7 @@ serve(async (req) => {
 
     // Fetch invite details
     const { data: invite, error } = await supabaseClient
-      .from('meeting_invites')
+      .from('meeting_invites_public')
       .select('*')
       .eq('id', inviteId)
       .single()
